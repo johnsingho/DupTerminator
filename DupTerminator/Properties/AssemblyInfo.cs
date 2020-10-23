@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DupTerminator")]
-[assembly: AssemblyDescription("DupTerminator - a program to search, delete, move, and rename duplicate file by comparing MD5 hash. The program is free and open source software. Please report bugs or enhancements requests to the sourceforge project page.")]
+[assembly: AssemblyDescription("DupTerminator - a program to search, delete, move, and rename duplicate file by comparing SHA1 hash. The program is free and open source software. Please report bugs or enhancements requests to the sourceforge project page.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dmitry Borisov")]
 [assembly: AssemblyProduct("DupTerminator")]

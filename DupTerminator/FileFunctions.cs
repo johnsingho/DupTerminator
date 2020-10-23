@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -35,13 +35,13 @@ namespace DupTerminator
         private List<string> _excludePattern = new List<string>();
         private string[] _separators = new string[] { "|", ";" };
 
-        public SettingsApp settings; //= new SettingsApp(); //экземпляр класса с настройками 
+        public SettingsApp settings; //= new SettingsApp(); //о‘“зЏЏзҐњ??и§Ње›«иҐ¦ ?зЈ¬иЂ±з—¤ж®›е›”?
         public DBManager dbManager;
         #endregion //"Declarations"
 
         #region "Events"
-        public delegate void FolderChangedDelegate(int i, string folder);  //параметры те же что в главной функции
-        public event FolderChangedDelegate FolderChangedEvent;  //надо вызвать при смене директории
+        public delegate void FolderChangedDelegate(int i, string folder);  //й•џз–Јж€ѕиќ ?иќ€ й©Ѕ й»©??ж±¶е™”зњЌ?и¶”й»»йІЁ?
+        public event FolderChangedDelegate FolderChangedEvent;  //зЈ¬жј• жЃ№зЋ®е›№?й•і?иЂўе±™?ж»‚з–±з‰ќй“•жўѓ
 
         public delegate void FileCountAvailableDelegate(int Number);
         public event FileCountAvailableDelegate FileCountAvailableEvent;
@@ -69,12 +69,12 @@ namespace DupTerminator
         {
             try
             {
-                //if (_directoriesSearched.Contains(di.FullName.ToString())) никогда не заходит
+                //if (_directoriesSearched.Contains(di.FullName.ToString())) йѕ›и§ђжІ…?з¤¤ зЋЋиє…ж»‚?
                 //    return;
 
                 List<FileInfo> files = new List<FileInfo>();
 
-                //расширения
+                //з–ЈиЃ’жЎЉе±™?
                 if (_includePattern.Count > 0)
                 {
                     foreach (string pattern in _includePattern)
@@ -92,7 +92,7 @@ namespace DupTerminator
 
                     if (nofileZ.Count != 0)
                     {
-                        //List<int> toRemove = new List<int>(); //индекс элементов для удаления
+                        //List<int> toRemove = new List<int>(); //жЎ§жєґзЉџ о‘”е±ђе±™иќѕ?жЅ†пЈµ з®ђељЇе±™?
                         for (int i = 0; i < files.Count; i++)
                         {
                             for (int j = 0; j < nofileZ.Count; j++)
@@ -108,7 +108,7 @@ namespace DupTerminator
                     }
                 }
 
-                //пропускаем не подходящие по размерам
+                //й•ій“’зЇ‘иµ…е±ђ з¤¤ й•±жј‰й’їпЈµо‹™?й•± з–ЈзЏ€е±¦е›”
                 for (int i = 0; i < files.Count; i++)
                 {
                     if (files[i].Length > settings.Fields.limits[0] && files[i].Length < settings.Fields.limits[1])
@@ -156,7 +156,7 @@ namespace DupTerminator
             try
             {
                 //System.Diagnostics.Debug.WriteLine("AddFiles for directory " + di.FullName);
-                AddFiles(di, ref al); //добавление файлов
+                AddFiles(di, ref al); //жј•еѕ‰жЂ†е±™жЎў зѕїж®Ўй’ј
 
                 if (settings.Fields.IsScanMax)
                     if (al.Count >= settings.Fields.MaxFile)
@@ -237,7 +237,7 @@ namespace DupTerminator
             {
                 if (currentFileSize == ((ExtendedFileInfo)inputList[i]).fileInfo.Length)
                 {
-                    fileSizeMatchList.Add(inputList[i]);  //содержит файлы с одинаковым размером
+                    fileSizeMatchList.Add(inputList[i]);  //иЂ¦жєґз–°ж © зѕїж®Ў??й’їжЎ§ељ“й’јоЋ™ з–ЈзЏ€е±¦й“Ћ
                 }
                 else
                 {
@@ -395,7 +395,7 @@ namespace DupTerminator
             }
 
 
-            FileCountAvailableEvent(_completeFileList.Count);  //событие event ot main form
+            FileCountAvailableEvent(_completeFileList.Count);  //иЂ¦зЊЃињ©?event ot main form
             FileListAvailableEvent(_completeFileList);  //Add_LVI(
                         
             //if (_completeFileList.Count <= 0)
@@ -428,7 +428,7 @@ namespace DupTerminator
                         if (csg.Count > 1)
                         {
                             //_groupCount++;
-                            //_DuplicateCount += csg.Count; //быстро слишком
+                            //_DuplicateCount += csg.Count; //зЊЃиЂ±з—¤ иЂ жЎ«и§ђ?
 
                             //long currentFileSize = 0;
 
@@ -455,7 +455,7 @@ namespace DupTerminator
                     }
                 }
             }
-            //событие
+            //иЂ¦зЊЃињ©?
             DuplicateFileListAvailableEvent(_duplicateFileList);
         }
 

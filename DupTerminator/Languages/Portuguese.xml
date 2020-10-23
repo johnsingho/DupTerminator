@@ -53,7 +53,7 @@
     <message name="ListViewColumn_Size" value="Tamanho" />
     <message name="ListViewColumn_FileType" value="Tipo de arquivo" />
     <message name="ListViewColumn_LastAccessed" value="Última Acessado" />
-    <message name="ListViewColumn_MD5Checksum" value="MD5 Checksum" />
+    <message name="ListViewColumn_SHA1Checksum" value="SHA1 Checksum" />
     <message name="ListViewColumn_SubDirectory" value="Subdiretório" />
     <message name="CheckAllSelected" value="Se o cheque lá é grupos nos quais todos os arquivos se alocam" />
     <message name="AllSelected" value="Alguns grupos têm TODAS as cópias de arquivos duplicados selecionados!&#xD;&#xA;Você precisa deixar pelo menos um arquivo." />
@@ -152,7 +152,7 @@
     </form>
     <form type="DupTerminator.FormAbout">
       <property name="Text" value="Sobre DupTerminator" />
-      <property name="textBoxDescription.Text" value="DupTerminator - um programa para pesquisar, apagar, mover e renomear arquivos duplicados comparando hash MD5. O programa é um software livre e de código aberto.&#xD;&#xA;Recursos suportados:&#xD;&#xA;- Grupos Ordenar por coluna.&#xD;&#xA;- Selecione os arquivos em uma pasta específica, em uma pasta nos grupos que têm todas as pastas do grupo selecionado, por data, por extensão, nome por nome especificado.&#xD;&#xA;- Renomear arquivos, mover arquivos.&#xD;&#xA;- Delte para a reciclagem.&#xD;&#xA;- Carregar / Salvar a lista de duplicatas.&#xD;&#xA;- Mudança programa da fonte, fonte e cor de duplicatas lista." />
+      <property name="textBoxDescription.Text" value="DupTerminator - um programa para pesquisar, apagar, mover e renomear arquivos duplicados comparando hash SHA1. O programa é um software livre e de código aberto.&#xD;&#xA;Recursos suportados:&#xD;&#xA;- Grupos Ordenar por coluna.&#xD;&#xA;- Selecione os arquivos em uma pasta específica, em uma pasta nos grupos que têm todas as pastas do grupo selecionado, por data, por extensão, nome por nome especificado.&#xD;&#xA;- Renomear arquivos, mover arquivos.&#xD;&#xA;- Delte para a reciclagem.&#xD;&#xA;- Carregar / Salvar a lista de duplicatas.&#xD;&#xA;- Mudança programa da fonte, fonte e cor de duplicatas lista." />
     </form>
     <form type="DupTerminator.FormFileFilterSelect">
       <property name="Text" value="Filtro de Arquivo Selecionar" />

@@ -53,7 +53,7 @@
     <message name="ListViewColumn_Size" value="Size" />
     <message name="ListViewColumn_FileType" value="File Type" />
     <message name="ListViewColumn_LastAccessed" value="Last Accessed" />
-    <message name="ListViewColumn_MD5Checksum" value="MD5 Checksum" />
+    <message name="ListViewColumn_SHA1Checksum" value="SHA1 Checksum" />
     <message name="ListViewColumn_SubDirectory" value="Subdirectory" />
     <message name="CheckAllSelected" value="Whether check there are groups in which all files are selected" />
     <message name="AllSelected" value="Some groups have ALL copies of Duplicate files selected!&#xD;&#xA;You need to leave at least one file." />
@@ -152,7 +152,7 @@
     </form>
     <form type="DupTerminator.FormAbout">
       <property name="Text" value="About DupTerminator" />
-      <property name="textBoxDescription.Text" value="DupTerminator - a program to search, delete, move, and rename duplicate file by comparing MD5 hash. The program is free and open source software.&#xD;&#xA;Supported features:&#xD;&#xA;- Sort groups by column.&#xD;&#xA;- Select files in a specific folder, in a folder in the groups that have all folders from the selected group, by date, by name length, by specified name.&#xD;&#xA;- Rename files, moving files.&#xD;&#xA;- Delte to recycle bin.&#xD;&#xA;- Load / Save the list of duplicates.&#xD;&#xA;- Saving of calculating md5 in database SQLite.&#xD;&#xA;- Preliminary fast comparing for the big files.&#xD;&#xA;- Change program font, font and color of list duplicates." />
+      <property name="textBoxDescription.Text" value="DupTerminator - a program to search, delete, move, and rename duplicate file by comparing SHA1 hash. The program is free and open source software.&#xD;&#xA;Supported features:&#xD;&#xA;- Sort groups by column.&#xD;&#xA;- Select files in a specific folder, in a folder in the groups that have all folders from the selected group, by date, by name length, by specified name.&#xD;&#xA;- Rename files, moving files.&#xD;&#xA;- Delte to recycle bin.&#xD;&#xA;- Load / Save the list of duplicates.&#xD;&#xA;- Saving of calculating SHA1 in database SQLite.&#xD;&#xA;- Preliminary fast comparing for the big files.&#xD;&#xA;- Change program font, font and color of list duplicates." />
     </form>
     <form type="DupTerminator.FormFileFilterSelect">
       <property name="Text" value="File Filter Select" />

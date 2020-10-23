@@ -21,7 +21,7 @@ namespace DupTerminator.VersionManager
         public delegate void NewVersionCheckedHandler(bool newVersion, VersionInfo versionInfo, bool showFormVersion);
         public event NewVersionCheckedHandler VersionChecked;
 
-        private const string urlVersion = "http://sourceforge.net/projects/dupterminator/files/version.xml";
+        private const string urlVersion = "https://sourceforge.net/projects/dupterminator/files/version.xml";
 
         //#region Constructors
         /// <summary>

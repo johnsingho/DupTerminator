@@ -51,23 +51,23 @@ namespace DupTerminator
                         if (_dbManager.Active)
                         {
                             //System.Diagnostics.Debug.WriteLine("CheckSum _dbManager.Active=" + _dbManager.Active);
-                            string md5 = String.Empty;
-                            md5 = _dbManager.ReadMD5(_fi.FullName, _fi.LastWriteTime, _fi.Length);
-                            if (String.IsNullOrEmpty(md5))
+                            string sHash = String.Empty;
+                            sHash = _dbManager.ReadHash(_fi.FullName, _fi.LastWriteTime, _fi.Length);
+                            if (String.IsNullOrEmpty(sHash))
                             {
                                 //System.Diagnostics.Debug.WriteLine(String.Format("md5 not found in DB for file {0}, lastwrite: {1}, length: {2}", _fi.FullName, _fi.LastWriteTime, _fi.Length));
-                                _checkSum = CreateMD5Checksum(_fi.FullName);
+                                _checkSum = CreateSHA1Checksum(_fi.FullName);
                                 //_dbManager.Add(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum);
                                 _dbManager.Update(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum);
                             }
                             else
-                                _checkSum = md5;
+                                _checkSum = sHash;
                         }
                         else
-                            _checkSum = CreateMD5Checksum(_fi.FullName);
+                            _checkSum = CreateSHA1Checksum(_fi.FullName);
                     }
                     else
-                        _checkSum = CreateMD5Checksum(_fi.FullName);
+                        _checkSum = CreateSHA1Checksum(_fi.FullName);
 
                 }
                 return _checkSum;
@@ -82,6 +82,8 @@ namespace DupTerminator
             get { return _fi; }
         }
 
+//H.Z.XIN 2020 disabled
+#if false
         /// <summary>
         /// Return MD5 Checksum for file.
         /// </summary>
@@ -97,6 +99,38 @@ namespace DupTerminator
                 using (System.IO.FileStream fs = System.IO.File.OpenRead(fn))
                 {
                     foreach (byte b in oMD5.ComputeHash(fs))
+                        sb.Append(b.ToString("x2").ToLower());
+                }
+            }
+
+            catch (System.UnauthorizedAccessException ex)
+            {
+                //MessageBox.Show(ex.Message);
+                return String.Empty;
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                return String.Empty;
+            }
+            catch (System.IO.DirectoryNotFoundException ex)
+            {
+                //MessageBox.Show(ex.Message);
+                return String.Empty;
+            }
+
+            return sb.ToString();
+        }
+#endif
+        private string CreateSHA1Checksum(string fn)
+        {
+            var oHasher = System.Security.Cryptography.SHA1.Create();
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                using (System.IO.FileStream fs = System.IO.File.OpenRead(fn))
+                {
+                    foreach (byte b in oHasher.ComputeHash(fs))
                         sb.Append(b.ToString("x2").ToLower());
                 }
             }

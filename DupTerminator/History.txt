@@ -38,7 +38,7 @@ Version 1.2.5257
 Add show job name in title program, DragAndDrop directories. Minor fix.
 
 Version 1.3.5289
-Added usage of database SQLite for acceleration of repeated searches. In database stored path, its size, time of last write and md5. Added fast check for the big files. Before calculation md5 for all file specified amount Kb is compared. Inscription display in a subdirectory column is corrected at language change.
+Added usage of database SQLite for acceleration of repeated searches. In database stored path, its size, time of last write and SHA1. Added fast check for the big files. Before calculation SHA1 for all file specified amount Kb is compared. Inscription display in a subdirectory column is corrected at language change.
 
 Version 1.3.5296
 Fix Select All in This Folder (in group with this folders). Now selected groups in there all directory frow searched group. Added removal of missing directories from search directory.
@@ -67,6 +67,10 @@ Fixing Drag and Drop. Now possible drop few directories.
 Version 1.3.5428
 Added options 'Check non-existent on load'. Fixed constraint failed.
 
+
+Version 1.4.0
+change to use SHA1 hash
+
 -----------------------------------------------------------------------------------
 Версия 1.0
 Первый релиз
@@ -93,7 +97,7 @@ Added options 'Check non-existent on load'. Fixed constraint failed.
 Добавлена Загрузка/Сохраение Работ; Опция сканирования субдиректорий для каждой директории.
 
 Версия 1.3.5289
-Добавлено использование базы данных SQLite для ускорения повторных поисков. В базе данных хранится путь к файлу, его размер, время последнего изменения и md5. Добавлено быстрая проверка для больших файлов. До расчета md5 для всего файла сравнивается указанное количество Kb. Исправлено отображение надписи в колонке поддиректории при смене языка.
+Добавлено использование базы данных SQLite для ускорения повторных поисков. В базе данных хранится путь к файлу, его размер, время последнего изменения и SHA1. Добавлено быстрая проверка для больших файлов. До расчета SHA1 для всего файла сравнивается указанное количество Kb. Исправлено отображение надписи в колонке поддиректории при смене языка.
 
 Версия 1.3.5296
 Исправлено Выбрать все в этой папке (в группах с этими папками). Теперь выделяются группы в которых есть все директории из искомой группы. Добавлено удаление отсутствующих директорий из директорий поиска.

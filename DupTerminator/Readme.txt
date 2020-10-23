@@ -1,29 +1,29 @@
-DupTerminator - a program to search, delete, move, and rename duplicate file by comparing MD5 hash. The program is free and open source software. I had to write it, because another good program - DupKiller not support some functions and was quite old and slow.
+п»їDupTerminator - a program to search, delete, move, and rename duplicate file by comparing SHA1 hash. The program is free and open source software. I had to write it, because another good program - DupKiller not support some functions and was quite old and slow.
 Supported features:
 - Sort groups by column.
 - Select files in a specific folder, in a folder in the groups that have all folders from the selected group, by date, by name length, by specified name.
 - Rename files, moving files.
 - Delete to recycle bin.
 - Load / Save the list of duplicates.
-- Saving of calculating md5 in database SQLite.
+- Saving of calculating SHA1 in database SQLite.
 - Preliminary fast comparing for the big files.
 - Change program font, font and color of list duplicates.
 
- Please report bugs or enhancements requests to the sourceforge project page or email dmitryborisov@users.sourceforge.net.
+ Please report bugs or enhancements requests to the sourceforge project page or email wsk3Q@hotmail.com.
 
 ------------------------------------------------------------------------------------------------------------
 
-DupTerminator - программа для поиска, удаления, перемещения, и переименования дубликатов c помощью сравнения по MD5 хешу. Программа бесплатная и с открытым исходным кодом. Пришлось ее написать, потому что другая хорошая программа - DupKiller не поддерживала некоторых функций и была достаточно старой и медленной.
-Поддерживаемые функции:
-- Сортировка групп по колонкам.
-- Выбор файлов в определенной папке, в определенной папке в тех группах, где есть все пути из выделенной группы, по дате, по длине имени, по заданному имени.
-- Переименование файлов, перемещение файлов.
-- Удаление в корзину.
-- Загрузка/сохранение списка дубликатов.
-- Сохранение подсчитанных контрольных сумм в базу данных SQLite.
-- Предварительное быстрое сравнение для больших файлов.
-- Изменение шрифта программы, шрифта и цвета списка дубликатов.
+DupTerminator - РїСЂРѕРіСЂР°РјРјР° РґР»СЏ РїРѕРёСЃРєР°, СѓРґР°Р»РµРЅРёСЏ, РїРµСЂРµРјРµС‰РµРЅРёСЏ, Рё РїРµСЂРµРёРјРµРЅРѕРІР°РЅРёСЏ РґСѓР±Р»РёРєР°С‚РѕРІ c РїРѕРјРѕС‰СЊСЋ СЃСЂР°РІРЅРµРЅРёСЏ РїРѕ SHA1 С…РµС€Сѓ. РџСЂРѕРіСЂР°РјРјР° Р±РµСЃРїР»Р°С‚РЅР°СЏ Рё СЃ РѕС‚РєСЂС‹С‚С‹Рј РёСЃС…РѕРґРЅС‹Рј РєРѕРґРѕРј. РџСЂРёС€Р»РѕСЃСЊ РµРµ РЅР°РїРёСЃР°С‚СЊ, РїРѕС‚РѕРјСѓ С‡С‚Рѕ РґСЂСѓРіР°СЏ С…РѕСЂРѕС€Р°СЏ РїСЂРѕРіСЂР°РјРјР° - DupKiller РЅРµ РїРѕРґРґРµСЂР¶РёРІР°Р»Р° РЅРµРєРѕС‚РѕСЂС‹С… С„СѓРЅРєС†РёР№ Рё Р±С‹Р»Р° РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЃС‚Р°СЂРѕР№ Рё РјРµРґР»РµРЅРЅРѕР№.
+РџРѕРґРґРµСЂР¶РёРІР°РµРјС‹Рµ С„СѓРЅРєС†РёРё:
+- РЎРѕСЂС‚РёСЂРѕРІРєР° РіСЂСѓРїРї РїРѕ РєРѕР»РѕРЅРєР°Рј.
+- Р’С‹Р±РѕСЂ С„Р°Р№Р»РѕРІ РІ РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ РїР°РїРєРµ, РІ РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ РїР°РїРєРµ РІ С‚РµС… РіСЂСѓРїРїР°С…, РіРґРµ РµСЃС‚СЊ РІСЃРµ РїСѓС‚Рё РёР· РІС‹РґРµР»РµРЅРЅРѕР№ РіСЂСѓРїРїС‹, РїРѕ РґР°С‚Рµ, РїРѕ РґР»РёРЅРµ РёРјРµРЅРё, РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ РёРјРµРЅРё.
+- РџРµСЂРµРёРјРµРЅРѕРІР°РЅРёРµ С„Р°Р№Р»РѕРІ, РїРµСЂРµРјРµС‰РµРЅРёРµ С„Р°Р№Р»РѕРІ.
+- РЈРґР°Р»РµРЅРёРµ РІ РєРѕСЂР·РёРЅСѓ.
+- Р—Р°РіСЂСѓР·РєР°/СЃРѕС…СЂР°РЅРµРЅРёРµ СЃРїРёСЃРєР° РґСѓР±Р»РёРєР°С‚РѕРІ.
+- РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕРґСЃС‡РёС‚Р°РЅРЅС‹С… РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С… SQLite.
+- РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРµ Р±С‹СЃС‚СЂРѕРµ СЃСЂР°РІРЅРµРЅРёРµ РґР»СЏ Р±РѕР»СЊС€РёС… С„Р°Р№Р»РѕРІ.
+- РР·РјРµРЅРµРЅРёРµ С€СЂРёС„С‚Р° РїСЂРѕРіСЂР°РјРјС‹, С€СЂРёС„С‚Р° Рё С†РІРµС‚Р° СЃРїРёСЃРєР° РґСѓР±Р»РёРєР°С‚РѕРІ.
 
-Если вы найдете какой-нибудь баг, или у вас есть предложения по улучшению, то, пожалуйста, напишите на dmitryborisov@users.sourceforge.net.
+Р•СЃР»Рё РІС‹ РЅР°Р№РґРµС‚Рµ РєР°РєРѕР№-РЅРёР±СѓРґСЊ Р±Р°Рі, РёР»Рё Сѓ РІР°СЃ РµСЃС‚СЊ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РїРѕ СѓР»СѓС‡С€РµРЅРёСЋ, С‚Рѕ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РЅР°РїРёС€РёС‚Рµ РЅР° dmitryborisov@users.sourceforge.net.
 
 

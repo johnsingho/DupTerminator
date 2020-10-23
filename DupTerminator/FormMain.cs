@@ -1,4 +1,4 @@
-//#define ExtLang  //извлечь языки в xml
+п»ї//#define ExtLang  //жЎ¤жЂ†й¬»?пЈµзђЁи§‡ ?xml
 
 using System;
 using System.Collections.Generic;
@@ -11,10 +11,10 @@ using DupTerminator.Native;
 using DupTerminator.Util;
 using System.Globalization;
 using System.Xml; //Language
+using Microsoft.Win32;
 //using Microsoft.VisualBasic;
 //using System.Runtime.InteropServices;//DllImport
 //using System.Drawing.Drawing2D; //menu paint
-
 
 
 namespace DupTerminator
@@ -24,12 +24,12 @@ namespace DupTerminator
         private ToolTip ttMainForm;
         private FileFunctions fFunctions = new FileFunctions();
         //Properties.Settings mySettings = new Properties.Settings();
-        private SettingsApp _settings = new SettingsApp(); //экземпляр класса с настройками 
+        private SettingsApp _settings = new SettingsApp(); //о‘“зЏЏзҐњ??и§Ње›«иҐ¦ ?зЈ¬иЂ±з—¤ж®›е›”?
         private DateTime _timeStart;
         //private int _lastCount;
         //private bool _cancell = false;
 
-        //обработчки сортировки колонок
+        //й’єз–ЈзЉ·иќји§‡ иЂ¦з—±жЎЉй’ји§‡ и§ђи…©зњЌ?
         private ListViewGroupSorter lvwGroupSorter;
 
         public bool AllowListChkUpdate;
@@ -76,14 +76,12 @@ namespace DupTerminator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!isDotNet35Installed())
+            if (!isDotNet4ClientInstalled())
             {
-                //MessageBox.Show("You Need Microsoft .NET Framework 4 Full in order to run this program.", ".NET Framework Detection", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                if (MessageBox.Show("You Need Microsoft .NET Framework 3.5 in order to run this program. Want to download .Net Framework 3.5?", "Warning",
+                if (MessageBox.Show("You Need Microsoft .NET Framework 4.0 Client Profile in order to run this program. Want to download .Net Framework 3.5?", "Warning",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                     System.Diagnostics.Process.Start("http://www.microsoft.com/ru-ru/download/details.aspx?id=22");
                 base.Close();
-                //System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 
 
@@ -134,7 +132,7 @@ namespace DupTerminator
             //System.Diagnostics.Debug.WriteLine("Form1_Load _dbManager.Active=" + _dbManager.Active);
             fFunctions.settings = _settings;
             fFunctions.dbManager = _dbManager;
-            //  событие                     подписчик   экземпляр делегата
+            //  иЂ¦зЊЃињ©?                    й•±ж»№жЎ‰йє’?  о‘“зЏЏзҐњ??жєґи„Іж±”ињћ
             //DCSearch.FolderChangedEvent += new EventHandler(DCSearch_FolderChanged);
             //          event                   delegate FileCountAvailableDelegate(double Number)  private void FileCountCompleteEventHandler(double Number)
             //public delegate void FileCheckInProgressDelegate(string fileName, int currentCount);
@@ -143,7 +141,7 @@ namespace DupTerminator
             //private delegate void FileCheckUpdateDelegate(string fileName, int currentCount);
             //private void FileUpdateEventHandler(string fileName, int currentCount);
             //fFunctions.FileCheckInProgressEvent += new FileFunctions.FileCheckInProgressDelegate(FileUpdateEventHandler);
-            //событие вызывающего += new делегат вызывающего(собыите принимающего)
+            //иЂ¦зЊЃињ©?жЃ№зђЁеї„о“Ђй‚€?+= new жєґи„Іж±”?жЃ№зђЁеї„о“Ђй‚€?иЂ¦зЊЃж ©?й•іжЎ§жЎЃеёјо‹–жіђ)
             fFunctions.FolderChangedEvent += new FileFunctions.FolderChangedDelegate(FolderChangedEventHandler);
             fFunctions.FileCountAvailableEvent += new FileFunctions.FileCountAvailableDelegate(FileCountCompleteEventHandler);
             fFunctions.FileListAvailableEvent += new FileFunctions.FileListAvailableDelegate(CompleteFileListAvailableEventHandler);
@@ -152,11 +150,11 @@ namespace DupTerminator
             fFunctions.SearchCancelledEvent += new FileFunctions.SearchCancelledDelegate(SearchCancelledEventHandler);
         }
 
-        public static bool isDotNet35Installed()
+        public static bool isDotNet4ClientInstalled()
         {
             try
             {
-                return (Convert.ToInt32(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5").GetValue("Install")) == 1);
+                return (Convert.ToInt32(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client", RegistryKeyPermissionCheck.ReadSubTree).GetValue("Install")) == 1);
             }
             catch
             {
@@ -165,7 +163,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Загрузить список директорий поиска
+        /// йќ’жІ­з®ёж ©?иЂ§жЎ‰й“Њ ж»‚з–±з‰ќй“•ж ќ й•±жЎ‰иµ…
         /// </summary>
         /// <param name="directory"></param>
         private void Load_listDirectorySearch(string directory)
@@ -320,7 +318,7 @@ namespace DupTerminator
                     listViewItemSave = formatter.Deserialize(file) as ListViewSave;
                     file.Close();
 
-                    AllowListChkUpdate = false; // иначе будет запускаться lvDuplicates_ItemChecked
+                    AllowListChkUpdate = false; // жЎ§ењњ?з‹Ќжєґ?зЋЋзџ¬иЂње›№оЏјпЈµ lvDuplicates_ItemChecked
                     lvDuplicates.BeginUpdate();
                     SetStatusDuplicate(LanguageManager.GetString("LoadListLoad") + listViewItemSave.Groups.Count.ToString() + LanguageManager.GetString("LoadListGroups"));
                     progressBar1.Maximum = listViewItemSave.Groups.Count;
@@ -385,10 +383,10 @@ namespace DupTerminator
                                 lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.Items[i]);
                                 lvDuplicates.Items[i].Remove();
                                 i--;
-                                //Если в группе остался 1 файл
+                                //зЇ·и…“ ?жІ­з®«й•Ґ й“–ињћи…­пЈµ 1 зѕїж®Ў
                                 if (lvDuplicates.Groups[groupName].Items.Count == 1)
                                 {
-                                    //Удаление группы
+                                    //ж„‰ељЇе±™жЎў жІ­з®«зЁѓ
                                     lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                                     if (i > -1)
                                         i = i - 1;
@@ -426,7 +424,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Чтение настроек
+        /// жЁе±™жЎў зЈ¬иЂ±з—¤е°»
         /// </summary>
         private void readSetting()
         {
@@ -668,7 +666,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Запись настроек
+        /// йќ’й•ЁйЎё зЈ¬иЂ±з—¤е°»
         /// </summary>
         private void writeSetting()
         {
@@ -688,7 +686,7 @@ namespace DupTerminator
         #region EventHandler
         /// <summary>
         /// Show current adding folder and count of files
-        /// поиск файлов для сравнения (прогресс)
+        /// й•±жЎ‰?зѕїж®Ўй’ј жЅ†пЈµ иЂ©е™”з¤¤йѕ›пЈµ (й•ій’Ѕз–±иЂЁ)
         /// </summary>
         /// <param name="dir">Current directory</param>
         /// <param name="count">Count files in directory</param>
@@ -759,7 +757,7 @@ namespace DupTerminator
             /*var timer = Stopwatch.StartNew();
             SomeCodeToTime();
             timer.Stop();
-            Console.WriteLine("Выполнение метода заняло {0} мс", timer.ElapsedMilliseconds);*/
+            Console.WriteLine("и”“й•±и… е±™жЎў ж€ѕиќѕжє§ зЋЋ?и…© {0} зҐљ", timer.ElapsedMilliseconds);*/
         }
 
         /// <summary>
@@ -808,7 +806,7 @@ namespace DupTerminator
 
 
         /// <summary>
-        /// All files have been processed. Put listForCompare in duplicate file listForCompare. Добавление дубликатов в lvDuplicate
+        /// All files have been processed. Put listForCompare in duplicate file listForCompare. еїµеѕ‰жЂ†е±™жЎў жЅґзЉ­жЎ•е›№й’ј ?lvDuplicate
         /// </summary>
         /// <param name="dl">Arraylist collection of duplicate files.</param>
         private delegate void DuplicatFileListAvailableDelegate(System.Collections.ArrayList dl);
@@ -837,7 +835,7 @@ namespace DupTerminator
            // long s1, s2, s3, s4, s5;
             //Stopwatch sWatch = new Stopwatch();
             //Debug.WriteLine("Hashtable groups.Add");
-            //sWatch.Start(); //любой набор операций (работа с базой данных) 
+            //sWatch.Start(); //и†»зЉ·?зЈ¬зЉ·?й“’е±¦ењ‰ж ќ (з–ЈзЉ·ињћ ?еѕ‰зЏ™?жє§зњ„оЋў) 
             Color groupColor = _settings.Fields.ColorRow1.ToColor();
             //System.Collections.Hashtable groups = new System.Collections.Hashtable();
             Dictionary<string, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
@@ -1094,7 +1092,7 @@ namespace DupTerminator
             
             fFunctions.BeginSearch();
 
-            //результаты возврашает через событие DuplicateFileListAvailableDelegate DuplicatFileListAvailableEventHandler(System.Collections.ArrayList dl)
+            //з–±зЏћжњ¦ињћић“ еїёзЋ®з–Јо‰іејЄ йє‡з–±?иЂ¦зЊЃињ©?DuplicateFileListAvailableDelegate DuplicatFileListAvailableEventHandler(System.Collections.ArrayList dl)
             return;
         }
 
@@ -1225,7 +1223,7 @@ namespace DupTerminator
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
-        {//CancelButton перехватывает
+        {//CancelButton й•Ґз–±иё±е›№оЋЏе™±?
             //MessageBox.Show(e.KeyCode.ToString());
             if (e.KeyCode.Equals(Keys.Escape) && toolStripMenuItem_FullScreen.Checked)
             {
@@ -1410,7 +1408,7 @@ namespace DupTerminator
             {
                 /*int index = checkedListDirectorySearch.Items.IndexOf(checkedListDirectorySearch.SelectedItem);
                 checkedListDirectorySearch.Items.Remove(checkedListDirectorySearch.SelectedItem);
-                //Фокусировка на месте удаленного элемента
+                //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ ж€ѕиЂ±?з®ђељЇе±™зњЌжіђ о‘”е±ђе±™ињћ
                 if (checkedListDirectorySearch.Items.Count > 0)
                 {
                     if (index <= checkedListDirectorySearch.Items.Count - 1)
@@ -1433,7 +1431,7 @@ namespace DupTerminator
             {
                 int index = checkedListBoxSkipFolder.Items.IndexOf(checkedListBoxSkipFolder.SelectedItem);
                 checkedListBoxSkipFolder.Items.Remove(checkedListBoxSkipFolder.SelectedItem);
-                //Фокусировка на месте удаленного элемента
+                //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ ж€ѕиЂ±?з®ђељЇе±™зњЌжіђ о‘”е±ђе±™ињћ
                 if (checkedListBoxSkipFolder.Items.Count > 0)
                 {
                     if (index <= checkedListBoxSkipFolder.Items.Count - 1)
@@ -1523,7 +1521,7 @@ namespace DupTerminator
                     if (!ListViewContainPath(lvDirectorySearch, ffs.SelectedPath))
                     {
                         //checkedListDirectorySearch.Items.Add(ffs.SelectedPath, true);
-                        //Фокусировка на новом элементе
+                        //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ зњЌеїё?о‘”е±ђе±™иќ€
                         //checkedListDirectorySearch.SelectedIndices.Add(checkedListDirectorySearch.Items.Count - 1);
 
                         ListViewItem.ListViewSubItem lvsi;
@@ -1560,7 +1558,7 @@ namespace DupTerminator
                     if (!(checkedListBoxSkipFolder.FindStringExact(ffs.SelectedPath) >= 0))
                     {
                         checkedListBoxSkipFolder.Items.Add(ffs.SelectedPath, true);
-                        //Фокусировка на новом элементе
+                        //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ зњЌеїё?о‘”е±ђе±™иќ€
                         checkedListBoxSkipFolder.SelectedIndices.Add(checkedListBoxSkipFolder.Items.Count - 1);
                     }
                     else
@@ -1674,8 +1672,7 @@ namespace DupTerminator
             lv.Columns[4].Width = 125;
 
             colHead = new ColumnHeader();
-            //colHead.Text = "MD5 Checksum";
-            colHead.Text = LanguageManager.GetString("ListViewColumn_MD5Checksum");
+            colHead.Text = LanguageManager.GetString("ListViewColumn_SHA1Checksum");
             lv.Columns.Add(colHead);
             lv.Columns[5].Width = 200;
 
@@ -1758,10 +1755,10 @@ namespace DupTerminator
 
             lvsi = new ListViewItem.ListViewSubItem();
             lvsi.Text = efi.CheckSum;
-            lvsi.Name = "MD5Checksum";
+            lvsi.Name = "SHA1Checksum";
             lvi.SubItems.Add(lvsi);
 
-            //Группы
+            //зЃ­з®«зЁѓ
             lvi.Group = lv.Groups[efi.CheckSum];
 
             lv.Items.Add(lvi);
@@ -1787,7 +1784,7 @@ namespace DupTerminator
             {
                 lvDuplicates.SelectedItems.Clear();
                 lvDuplicates.BeginUpdate();
-                //Проверка не выделены ли в какой-нибудь группе все файлы
+                //ж©Ўй’је±¦иµ… з¤¤ жЃ№жєґи„Ізќ‡ и…“ ?иµ…и§ђ?йѕ›з‹ЌжЅј жІ­з®«й•Ґ жЂ¦?зѕїж®Ў?
                 if (!_settings.Fields.IsAllowDelAllFiles)
                 {
                     SetStatusDuplicate(LanguageManager.GetString("CheckAllSelected"));
@@ -1833,11 +1830,11 @@ namespace DupTerminator
                             //lvDuplicates.CheckedItems[i].Group.Items.Remove(lvDuplicates.CheckedItems[i]);
                             lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.CheckedItems[i]);
                             lvDuplicates.CheckedItems[i].Remove();
-                            i--; //потому что список на 1 вверх уехал
-                            //проверка на то что нет дубликатов
+                            i--; //й•±иќѕзҐ— й»©?иЂ§жЎ‰й“Њ зЈ¬ 1 еї–е±¦?з®¦иёµ?
+                            //й•ій’је±¦иµ… зЈ¬ иќѕ й»©?з¤¤?жЅґзЉ­жЎ•е›№й’ј
                             if (lvDuplicates.Groups[groupName].Items.Count == 1)
                             {
-                                //Удаление группы
+                                //ж„‰ељЇе±™жЎў жІ­з®«зЁѓ
                                 lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                                 if (i > -1)
                                     i = i - 1;
@@ -1854,8 +1851,8 @@ namespace DupTerminator
                         }
                     else //not exist
                     {
-                        //Пометка серым отсутствующих
-                        //текущая группа
+                        //йЎ№ж€ѕињї?зљґзҐ?й“—иЂ‹иќ°ињ®з°‹о‹™?
+                        //иќ€з‰¦о‹‘пЈµ жІ­з®«й•џ
                         if (lvDuplicates.CheckedItems[i].Group != null)
                         {
                             foreach (ListViewItem item in lvDuplicates.CheckedItems[i].Group.Items)
@@ -1869,7 +1866,7 @@ namespace DupTerminator
                                 }
                             }
                         }
-                        //все группы
+                        //жЂ¦?жІ­з®«зЁѓ
                         //foreach (ListViewItem item in lvDuplicates.Items)
                         //{
                         //    if (!System.IO.File.Exists(Path.Combine(item.SubItems["Path"].Text, item.SubItems["FileName"].Text)))
@@ -1966,7 +1963,7 @@ namespace DupTerminator
 
         #region SetStatus
         /// <summary>
-        /// Устанавливает полосу состояния в режим поиска
+        /// зЋ‰ињћзЈ¬жЂ†жЎ е™±?й•±и…©иЂ‹ иЂ¦иЂ±?йѕ›пЈµ ?з–±йЄ…?й•±жЎ‰иµ…
         /// </summary>
         private void SetStatusSearch()
         {
@@ -1990,7 +1987,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Устанавливает полосу состояния в режим отображения дубликатов
+        /// зЋ‰ињћзЈ¬жЂ†жЎ е™±?й•±и…©иЂ‹ иЂ¦иЂ±?йѕ›пЈµ ?з–±йЄ…?й“—й’єз–Јй©Ѕйѕ›пЈµ жЅґзЉ­жЎ•е›№й’ј
         /// </summary>
         private void SetStatusDuplicate()
         {
@@ -2004,11 +2001,11 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Устанавливает статус дубликатов
+        /// зЋ‰ињћзЈ¬жЂ†жЎ е™±?иЂ±е›№зЇ‘ жЅґзЉ­жЎ•е›№й’ј
         /// </summary>
-        /// <param name="count">Количество дубликатов double</param>
-        /// <param name="size">Размер дубликатов ulong</param>
-        /// <param name="ClearSelected">Очистить отображение выбранных записей</param>
+        /// <param name="count">жљ‘и…“йє‡иЂ±еїё жЅґзЉ­жЎ•е›№й’ј double</param>
+        /// <param name="size">жњЅзЏ€е±¦ жЅґзЉ­жЎ•е›№й’ј ulong</param>
+        /// <param name="ClearSelected">иҐїжЎ‰ињ©ићЇ й“—й’єз–Јй©Ѕйѕ›?жЃ№з‹ѓе›—зќ‡?зЋЋй•Ёзљґ?/param>
         private void SetStatusDuplicate(double count, ulong size, bool ClearSelected)
         {
             //statusStrip1.Items[0].Text = statusStripDubli1 + count;
@@ -2146,7 +2143,7 @@ namespace DupTerminator
                     }
                     else
                     {
-                        //текущая группа
+                        //иќ€з‰¦о‹‘пЈµ жІ­з®«й•џ
                         if (lvi.Group != null)
                         {
                             foreach (ListViewItem item in lvi.Group.Items)
@@ -2159,7 +2156,7 @@ namespace DupTerminator
                                 }
                             }
                         }//*/
-                        //все группы
+                        //жЂ¦?жІ­з®«зЁѓ
                         /*foreach (ListViewItem item in lvDuplicates.Items)
                         {
                             if (
@@ -2193,7 +2190,7 @@ namespace DupTerminator
 
         #region Context Menu Duplicate
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать все кроме одного
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?жЂ¦?з‰®й“Ћ?й’їзњЌжіђ
         /// </summary>
         private void tmsi_Dubli_SelectAllButOne_Click(object sender, EventArgs e)
         {   
@@ -2202,7 +2199,7 @@ namespace DupTerminator
             ListViewItem lvi;
             ListViewItem.ListViewSubItem lvsi;
 
-            //выделенные только обрабатываем
+            //жЃ№жєґи„Ізњ„оЋ’ иќѕжњ¦и§ђ й’єз–Јеѕ‰ић“еї„е±ђ
             AllowListChkUpdate = false;
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
             if (lvDuplicates.SelectedIndices.Count > 1)
@@ -2212,7 +2209,7 @@ namespace DupTerminator
                 {
                     lvDuplicates.SelectedItems[i].Checked = false;
 
-                    lvsi = lvDuplicates.SelectedItems[i].SubItems["MD5Checksum"];
+                    lvsi = lvDuplicates.SelectedItems[i].SubItems["SHA1Checksum"];
                     curCheckSum = lvsi.Text;
 
                     if (prevCheckSum != null)
@@ -2234,7 +2231,7 @@ namespace DupTerminator
                     lvDuplicates.Items[i].Checked = false;
 
                     lvi = lvDuplicates.Items[i];
-                    lvsi = lvi.SubItems["MD5Checksum"];
+                    lvsi = lvi.SubItems["SHA1Checksum"];
 
                     curCheckSum = lvsi.Text;
 
@@ -2260,7 +2257,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Удалить отмеченные записи
+        /// ж„‰ељЇж ©?й“—ж€ѕйє‡зњ„оЋ’ зЋЋй•ЁиЂ”
         /// </summary>
         private void tmsi_Dubli_DeleteSelectedItems_Click(object sender, EventArgs e)
         {
@@ -2280,13 +2277,13 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать все
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?жЂ¦?
         /// </summary>
         private void tmsi_Dubli_SelectAll_Click(object sender, EventArgs e)
         {
             AllowListChkUpdate = false;
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
-            //выделенные только обрабатываем
+            //жЃ№жєґи„Ізњ„оЋ’ иќѕжњ¦и§ђ й’єз–Јеѕ‰ић“еї„е±ђ
             if (lvDuplicates.SelectedIndices.Count > 1)
             {
                 progressBar1.Maximum = lvDuplicates.SelectedIndices.Count;
@@ -2316,13 +2313,13 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Сбросить все
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - еЋЊз—¤иЂ”ићЇ жЂ¦?
         /// </summary>
         private void tmsi_Dubli_DeSelectAll_Click(object sender, EventArgs e)
         {
             AllowListChkUpdate = false;
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
-            //выделенные только обрабатываем
+            //жЃ№жєґи„Ізњ„оЋ’ иќѕжњ¦и§ђ й’єз–Јеѕ‰ић“еї„е±ђ
             if (lvDuplicates.SelectedIndices.Count > 1)
             {
                 progressBar1.Maximum = lvDuplicates.SelectedIndices.Count;
@@ -2369,7 +2366,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать все в этой папке
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?жЂ¦??о‘›й“‹ й•џй•Є?
         /// </summary>
         private void tmsi_Dubli_SelectAllInThisFolder_Click(object sender, EventArgs e)
         {
@@ -2400,7 +2397,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать все в этой папке (в группах с этими папками)
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?жЂ¦??о‘›й“‹ й•џй•Є?(?жІ­з®«й•џ??о‘›жЎЃ?й•џй•Єе›”?
         /// </summary>
         private void tmsi_Dubli_SelectAllInThisFolderinGroupWithThisFolder_Click(object sender, EventArgs e)
         {
@@ -2420,16 +2417,16 @@ namespace DupTerminator
                     listForCompare.Add(item.SubItems["path"].Text);
                 }
 
-                //проверяем каждую группу на наличие ВСЕХ записей из искомой
+                //й•ій’је±¦пЈµе±ђ иµ…й©їз°‹ жІ­з®«зџ¬ зЈ¬ зЈ¬и…“йє’?еЌµиЂЄ зЋЋй•Ёзљґ?жЎ¤ жЎ‰и§ђзҐ›?
                 foreach (ListViewGroup group in lvDuplicates.Groups)
                 {
                     if (group.Items.Count >= listForCompare.Count)
                     {
                         bool check = true;
-                        foreach (string compared in listForCompare) //в искомой
+                        foreach (string compared in listForCompare) //?жЎ‰и§ђзҐ›?
                         {
                             bool groupApproaches = false;
-                            foreach (ListViewItem item in group.Items) //в текущей
+                            foreach (ListViewItem item in group.Items) //?иќ€з‰¦о‹–?
                             {
                                 if (String.Compare(compared, item.SubItems["path"].Text) == 0)
                                 {
@@ -2437,11 +2434,11 @@ namespace DupTerminator
                                     break;
                                 }
                             }
-                            //если не найдена то пропускаем
+                            //зѕји…“ з¤¤ зЈ¬ж®‡е±™?иќѕ й•ій“’зЇ‘иµ…е±ђ
                             if (!groupApproaches)
                             {
-                                check = false; //группа не подходит
-                                break; //выход из общего цикла
+                                check = false; //жІ­з®«й•џ з¤¤ й•±жј‰й’їж ©
+                                break; //жЃ№иє…?жЎ¤ й’єо‹–жіђ йІЁи§Њ?
                             }
 
                         }
@@ -2546,7 +2543,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Скопировать путь
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - ж®ѓй“’жЎЉй’је›№?зџ¬ићЇ
         /// </summary>
         private void tmsi_Dubli_CopyPath_Click(object sender, EventArgs e)
         {
@@ -2558,7 +2555,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Переименовать файл
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - иҐ„з–±жЎЃе±™й’је›№?зѕїж®Ў
         /// </summary>
         private void tmsi_Dubli_RenameFile_Click(object sender, EventArgs e)
         {
@@ -2604,7 +2601,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Переместить файл к соседу
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - иҐ„з–±ж€ѕиЂ±ж ©?зѕїж®Ў ?иЂ¦зљґжЅґ
         /// </summary>
         private void tmsi_Dubli_MoveFileToNeighbour_Click(object sender, EventArgs e)
         {
@@ -2645,7 +2642,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Удалить отсутствующие файлы из списка
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - ж„‰ељЇж ©?й“—иЂ‹иќ°ињ®з°‹о‹™?зѕїж®Ў?жЎ¤ иЂ§жЎ‰иµ…
         /// </summary>
         private void tmsi_Dubli_RemoveMissingFilesFromList_Click(object sender, EventArgs e)
         {
@@ -2674,10 +2671,10 @@ namespace DupTerminator
                     lvDuplicates.Items[i].Remove();
                     i--;
                     //lvDuplicates.Items.Remove(item);
-                    //Если в группе остался 1 файл
+                    //зЇ·и…“ ?жІ­з®«й•Ґ й“–ињћи…­пЈµ 1 зѕїж®Ў
                     if (lvDuplicates.Groups[groupName].Items.Count == 1)
                     {
-                        //Удаление группы
+                        //ж„‰ељЇе±™жЎў жІ­з®«зЁѓ
                         /*foreach (ListViewItem itemGroup in lvDuplicates.Groups[groupName].Items)
                         {
                             itemGroup.Remove();
@@ -2725,7 +2722,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Переименовать файл как соседний
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - иҐ„з–±жЎЃе±™й’је›№?зѕїж®Ў иµ…?иЂ¦зљґжј¤ж ќ
         /// </summary>
         private void tmsi_Dubli_RenameFileLikeNeighbour_Click(object sender, EventArgs e)
         {
@@ -2764,7 +2761,7 @@ namespace DupTerminator
                     //Update Text
                     //lvi.SubItems["Path"].Text = targetFolder;
                     lvi.SubItems["FileName"].Text = Path.GetFileName(targetPath);
-                    //вместо Undo
+                    //еїЄзѕјиќѕ Undo
                     Clipboard.SetDataObject(sourcePath);
                 }
                 catch (System.UnauthorizedAccessException ex)
@@ -2808,11 +2805,11 @@ namespace DupTerminator
                         lvDuplicates.FocusedItem.Group.Items.Remove(lvDuplicates.FocusedItem);
                         lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.FocusedItem);
                         lvDuplicates.Items.Remove(lvDuplicates.FocusedItem);
-                        //проверка на то что нет дубликатов
+                        //й•ій’је±¦иµ… зЈ¬ иќѕ й»©?з¤¤?жЅґзЉ­жЎ•е›№й’ј
                         if (lvDuplicates.Groups[groupName].Items.Count == 1)
                         {
 
-                            //Удаление группы
+                            //ж„‰ељЇе±™жЎў жІ­з®«зЁѓ
                             lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                             lvDuplicates.Groups[groupName].Items.RemoveAt(0);
 
@@ -2825,7 +2822,7 @@ namespace DupTerminator
                             //index++;
                         }
                         //lvDuplicates.EndUpdate();
-                        //Фокусировка на месте удаленного элемента
+                        //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ ж€ѕиЂ±?з®ђељЇе±™зњЌжіђ о‘”е±ђе±™ињћ
                         if (lvDuplicates.Items.Count > 0)
                         {
                             //System.Diagnostics.Debug.Write("Select lvDuplicates[" + index + "]=" + lvDuplicates.Items[index].Text +"\n");
@@ -2855,7 +2852,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Переместить выбранные файлы в папку
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - иҐ„з–±ж€ѕиЂ±ж ©?жЃ№з‹ѓе›—зќ‡?зѕїж®Ў??й•џй•Є?
         /// </summary>
         private void tmsi_Dubli_MoveSelectedFilesToFolder_Click(object sender, EventArgs e)
         {
@@ -2928,10 +2925,10 @@ namespace DupTerminator
                                     lvDuplicates.CheckedItems[i].Remove();
                                     i--;
                                     //lvDuplicates.Items.Remove(lvi);
-                                    //проверка на то что нет дубликатов
+                                    //й•ій’је±¦иµ… зЈ¬ иќѕ й»©?з¤¤?жЅґзЉ­жЎ•е›№й’ј
                                     if (lvDuplicates.Groups[groupName].Items.Count == 1)
                                     {
-                                        //Удаление группы
+                                        //ж„‰ељЇе±™жЎў жІ­з®«зЁѓ
                                         lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                                         if (i > -1)
                                             i = i - 1;
@@ -3157,9 +3154,9 @@ namespace DupTerminator
 
             this.Cursor = Cursors.WaitCursor;
 
-            //Sorting in group Сортировка внутри групп
+            //Sorting in group жќЁз—±жЎЉй’јиµ… еї­зЇЃз—‚ жІ­з®«?
             lvDuplicates.BeginUpdate();
-            //сортировщик Item-ов
+            //иЂ¦з—±жЎЉй’јо‹™?Item-й’ј
             ListViewItemSorter listViewItemSorter = new ListViewItemSorter();
             List<ListViewItem> listListViewItem = new List<ListViewItem>();
             listViewItemSorter.Order = SortOrder.Ascending;
@@ -3207,7 +3204,7 @@ namespace DupTerminator
                     lvDuplicates.Items.RemoveAt(item.Index);
                     //int y = lvDuplicates.Items.IndexOf(item);
                     //lvDuplicates.Items.RemoveAt(lvDuplicates.Items.IndexOf(item));
-                    //lvDuplicates.Items.Remove(item); //медленно
+                    //lvDuplicates.Items.Remove(item); //ж€ѕжЅ†е±™зњЌ
                     //lvDuplicates.Items.RemoveByKey(item.Name);
                     item.Group = group;
                     lvDuplicates.Items.Insert(itemIndex, item);
@@ -3273,14 +3270,14 @@ namespace DupTerminator
             string lastHash = String.Empty;
             for (int i = 0; i < listView.Items.Count; i++)
             {
-                if (String.Compare(listView.Items[i].SubItems["MD5Checksum"].Text, lastHash) != 0)
+                if (String.Compare(listView.Items[i].SubItems["SHA1Checksum"].Text, lastHash) != 0)
                 {
-                    //новый цвет
+                    //зњЌжЃ№?йІЎејЄ
                     if (prevBlue)
                         prevBlue = false;
                     else
                         prevBlue = true;
-                    lastHash = listView.Items[i].SubItems["MD5Checksum"].Text;
+                    lastHash = listView.Items[i].SubItems["SHA1Checksum"].Text;
                 }
                 if (prevBlue)
                 {
@@ -3302,15 +3299,15 @@ namespace DupTerminator
         {
             if (AllowListChkUpdate)
             {
-                //Зачернкнутый шрифт
+                //йќ’йє‡з—¦и§ЏзЇЃоЋ– оЉѓжўЏ?
                 Font fontRegular = new Font(e.Item.Font, FontStyle.Regular);
                 Font fontStrikeout = new Font(e.Item.Font, FontStyle.Strikeout);
 
                 if (e.Item.Checked)
                 {
                     e.Item.Font = fontStrikeout;
-                    //проверка не выделены ли все файлы в группе
-                    if (!_settings.Fields.IsAllowDelAllFiles) //если разрешено удаление то не проверяем 
+                    //й•ій’је±¦иµ… з¤¤ жЃ№жєґи„Ізќ‡ и…“ жЂ¦?зѕїж®Ў??жІ­з®«й•Ґ
+                    if (!_settings.Fields.IsAllowDelAllFiles) //зѕји…“ з–ЈзђЉе±®е±™?з®ђељЇе±™жЎў иќѕ з¤¤ й•ій’је±¦пЈµе±ђ 
                     {
                         if (e.Item.Group != null)
                         {
@@ -3356,7 +3353,7 @@ namespace DupTerminator
       
         #region Rename file
         /// <summary>
-        /// Переместить файл с переименованием
+        /// иҐ„з–±ж€ѕиЂ±ж ©?зѕїж®Ў ?й•Ґз–±жЎЃе±™й’је›—жЎў?
         /// </summary>
         private string MoveAndRename(String sourcePath, String targetPath)
         {
@@ -3379,11 +3376,11 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Проверка есть ли в имени файла число отделенное "_". Возврашает число.
+        /// ж©Ўй’је±¦иµ… зѕјићЇ и…“ ?жЎЃе±™?зѕїж®Ў?йє’иЂ ?й“—жєґи„Ізњ„й“„ "_". йЄ‚зЋ®з–Јо‰іејЄ йє’иЂ ?
         /// </summary>
-        /// <param name="name">имя файла</param>
-        /// <param name="digname">имя файла без числа и "_"</param>
-        /// <returns>0 или число полученное</returns>
+        /// <param name="name">жЎЃпЈµ зѕїж®Ў?/param>
+        /// <param name="digname">жЎЃпЈµ зѕїж®Ў?еѕЁ?йє’иЂ ??"_"</param>
+        /// <returns>0 жЎ¦?йє’иЂ ?й•±еЎЌйє‡зњ„й“„</returns>
         private ulong GetDigit(string name, out string digname)
         {
             int len = name.Length;
@@ -3405,11 +3402,11 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Добавление к имени файла числа в случае когда в нем его не было
+        /// еїµеѕ‰жЂ†е±™жЎў ?жЎЃе±™?зѕїж®Ў?йє’иЂ ??иЂ зЇ¦е™± и§ђжІ…??з¤¤?й‚€?з¤¤ зЊЃи…©
         /// </summary>
-        /// <param name="oldname">Старое имя</param>
-        /// <param name="i">Число</param>
-        /// <returns>Новое имя</returns>
+        /// <param name="oldname">зѕЉе›µй“„ жЎЃпЈµ</param>
+        /// <param name="i">й»иЂ ?/param>
+        /// <returns>зљ–еїё?жЎЃпЈµ</returns>
         private string GetNewNameForFileAdd(string oldname, ulong i)
         {
             string newname = string.Format("{0}\\{1}_{2}{3}", Directory.GetParent(oldname).ToString(), Path.GetFileNameWithoutExtension(oldname), i, Path.GetExtension(oldname));
@@ -3422,13 +3419,13 @@ namespace DupTerminator
         }
 
         /// <summary>
-        ///  Добавление к имени файла числа в случае когда в нем было число, с лидирующими нулями
+        ///  еїµеѕ‰жЂ†е±™жЎў ?жЎЃе±™?зѕїж®Ў?йє’иЂ ??иЂ зЇ¦е™± и§ђжІ…??з¤¤?зЊЃи…© йє’иЂ ? ?и…“ж»‚з—јо“ЂжЎЃ?зњў?ж‰€
         /// </summary>
-        /// <param name="oldname">Старое имя</param>
-        /// <param name="zero">Количество лидирующих нулей</param>
-        /// <param name="i">Число</param>
-        /// <param name="ext">Расширение файла</param>
-        /// <param name="sourceName">Исходное имя</param>
+        /// <param name="oldname">зѕЉе›µй“„ жЎЃпЈµ</param>
+        /// <param name="zero">жљ‘и…“йє‡иЂ±еїё и…“ж»‚з—јо“ЂжЎґ зњўи„І?/param>
+        /// <param name="i">й»иЂ ?/param>
+        /// <param name="ext">жњЅиЃ’жЎЉе±™жЎў зѕїж®Ў?/param>
+        /// <param name="sourceName">й”ђиє…жј¤й“„ жЎЃпЈµ</param>
         /// <returns></returns>
         private string GetNewNameForFileDig(string oldname, int zero, ulong i, string ext, string sourceName)
         {
@@ -3494,10 +3491,10 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Переводит числовое представление размера в округленное и с соответствующим текстом единицы измерения
+        /// иҐ„з–±еїёж»‚?йє’иЂ й’јй“„ й•ій‚ѓиЂ±е™”и„Ійѕ›?з–ЈзЏ€е±¦??й“Њз—јж±¶е±™зњЌ???иЂ¦й“—еї®иќ°ињ®з°‹о‹™?иќ€зЉџиќѕ?й‚ѓжЎ§жЎ·?жЎ¤ж€ѕз–±йѕ›пЈµ
         /// </summary>
-        /// <param name="size">Размер</param>
-        /// <param name="sbytes">Еденица измерения</param>
+        /// <param name="size">жњЅзЏ€е±¦</param>
+        /// <param name="sbytes">й…Ќе±™жЎ·?жЎ¤ж€ѕз–±йѕ›пЈµ</param>
         private void getSizeAndNameByte(ref ulong size, ref string sbytes)
         {
             if (size < 1024)
@@ -3593,7 +3590,7 @@ namespace DupTerminator
                         if (DateTime.Compare(currentDate, smallDate) < 0)
                         {
                             smallDate = currentDate;
-                            index = i; //самый старый
+                            index = i; //иҐ¦з¦§?иЂ±е›µоЋ–
                         }
                     }
                     for (int i = 0; i < group.Items.Count; i++)
@@ -3618,7 +3615,7 @@ namespace DupTerminator
             AllowListChkUpdate = false;
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
-            if (lvDuplicates.SelectedIndices.Count > 1)  //выделенные
+            if (lvDuplicates.SelectedIndices.Count > 1)  //жЃ№жєґи„Ізњ„оЋ’
             {
                 string prevGroup = String.Empty;
                 progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -3692,7 +3689,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать по дате - Старый файл в каждой группе
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?й•± жє§иќ€ - зѕЉе›µоЋ– зѕїж®Ў ?иµ…й©їй“‹ жІ­з®«й•Ґ
         /// </summary>
         private void tmsi_Dubli_SelectByDateOldestFiles_Click(object sender, EventArgs e)
         {
@@ -3723,8 +3720,8 @@ namespace DupTerminator
                             }
                             if (!checkGroup)
                             {
-                                check = false; //группа не подходит
-                                break; //выход из общего цикла
+                                check = false; //жІ­з®«й•џ з¤¤ й•±жј‰й’їж ©
+                                break; //жЃ№иє…?жЎ¤ й’єо‹–жіђ йІЁи§Њ?
                             }
                         }
 
@@ -3761,7 +3758,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Выбрать по дате - Новый файл в каждой группе
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - и”“з‹ѓе›№?й•± жє§иќ€ - зљ–жЃ№?зѕїж®Ў ?иµ…й©їй“‹ жІ­з®«й•Ґ
         /// </summary>
         private void tmsi_Dubli_SelectByDateNewestFiles_Click(object sender, EventArgs e)
         {
@@ -3792,8 +3789,8 @@ namespace DupTerminator
                             }
                             if (!checkGroup)
                             {
-                                check = false; //группа не подходит
-                                break; //выход из общего цикла
+                                check = false; //жІ­з®«й•џ з¤¤ й•±жј‰й’їж ©
+                                break; //жЃ№иє…?жЎ¤ й’єо‹–жіђ йІЁи§Њ?
                             }
                         }
 
@@ -3850,7 +3847,7 @@ namespace DupTerminator
             {
                 Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
 
-                if (lvDuplicates.SelectedIndices.Count > 1) //в выбранных
+                if (lvDuplicates.SelectedIndices.Count > 1) //?жЃ№з‹ѓе›—зќ‡?
                 {
                     AllowListChkUpdate = false;
                     progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -3907,7 +3904,7 @@ namespace DupTerminator
             AllowListChkUpdate = false;
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
-            if (lvDuplicates.SelectedIndices.Count > 1) //в выбранных
+            if (lvDuplicates.SelectedIndices.Count > 1) //?жЃ№з‹ѓе›—зќ‡?
             {
                 string prevGroup = String.Empty;
                 progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -3944,7 +3941,7 @@ namespace DupTerminator
                 }
                 progressBar1.Value = 0;
             }
-            else //во всех
+            else //еїё жЂ¦и‰ґ
             {
                 progressBar1.Maximum = lvDuplicates.Groups.Count;
                 foreach (ListViewGroup group in lvDuplicates.Groups)
@@ -3986,7 +3983,7 @@ namespace DupTerminator
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
             AllowListChkUpdate = false;
-            //выделенные только обрабатываем
+            //жЃ№жєґи„Ізњ„оЋ’ иќѕжњ¦и§ђ й’єз–Јеѕ‰ић“еї„е±ђ
             if (lvDuplicates.SelectedIndices.Count > 1)
             {
                 string prevGroup = String.Empty;
@@ -4062,7 +4059,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Контекстное меню дубликатов - Удалить группу из списка
+        /// жљ‘зњље°»иЂ±зњЌ?ж€ѕзќЁ жЅґзЉ­жЎ•е›№й’ј - ж„‰ељЇж ©?жІ­з®«зџ¬ жЎ¤ иЂ§жЎ‰иµ…
         /// </summary>
         private void tmsi_Dubli_DeleteGroup_Click(object sender, EventArgs e)
         {
@@ -4121,21 +4118,21 @@ namespace DupTerminator
         private readonly string Filename = Path.Combine(Environment.CurrentDirectory, "language.xml");
         private void SaveLanguages()
         {
-            //сохраняем данные настроек в файл хмл
+            //иЂ¦иє”е›—пЈµе±ђ жє§зњ„оЋ’ зЈ¬иЂ±з—¤е°» ?зѕїж®Ў и№Ї?
             XmlWriterSettings settingsXml = new XmlWriterSettings();
-            // включаем отступ для элементов XML документа
-            // (позволяет наглядно изобразить иерархию XML документа)
+            // жЂ…и†»й¬Је±ђ й“—иЂ±з®« жЅ†пЈµ о‘”е±ђе±™иќѕ?XML жј•з‰¦ж€ѕзњљ?
+            // (й•±зЋ®й“ЌпЈµејЄ зЈ¬ж±¶пЈµжј¤?жЎ¤й’єз–ЈзЋ·ићЇ жЎўз–ЈзђжЈ№ XML жј•з‰¦ж€ѕзњљ?
             settingsXml.Indent = true;
-            //settingsXml.IndentChars = "    "; // задаем отступ, здесь у меня 4 пробела
-            // задаем переход на новую строку
+            //settingsXml.IndentChars = "    "; // зЋЋжє§е±ђ й“—иЂ±з®«, зЋџзѕј??ж€ѕ? 4 й•ій’єе’«?
+            // зЋЋжє§е±ђ й•Ґз–±иє…?зЈ¬ зњЌжЂЏ?иЂ±з—¤з‰¦
             settingsXml.NewLineChars = "\n";
 
             using (XmlWriter output = XmlWriter.Create(Filename, settingsXml))
             {
-                // Создали открывающийся тег
+                // жќЁзЋџељЇ?й“—з‰®оЋЏеёјо‹™иЅіпЈµ иќ€?
                 output.WriteStartElement("language");
                 output.WriteAttributeString("culture", "en");
-                // Создаем элемент
+                // жќЁзЋџе™±?о‘”е±ђе±™?
                 output.WriteElementString("author", "D.Borisov");
                 output.WriteElementString("version", "1.0");
 
@@ -4231,9 +4228,9 @@ namespace DupTerminator
 
                 output.WriteEndElement();//Forms
                 output.WriteEndElement();//language
-                // Сбрасываем буфферизированные данные
+                // еЋЊз–Ји¦ѓеї„е±ђ з‹Ќи¶‘е±¦жЎ¤жЎЉй’је›—зќ‡?жє§зњ„оЋ’
                 output.Flush();
-                // Закрываем фаил, с которым связан output
+                // йќ’з‰®оЋЏе™±?зѕїжЎ¦, ?и§ђиќѕзҐ?з–‹пЈµзЋЋ?output
                 output.Close();
             }
         }
@@ -4399,7 +4396,7 @@ namespace DupTerminator
                 lvDuplicates.Columns[2].Text = LanguageManager.GetString("ListViewColumn_Size");
                 lvDuplicates.Columns[3].Text = LanguageManager.GetString("ListViewColumn_FileType");
                 lvDuplicates.Columns[4].Text = LanguageManager.GetString("ListViewColumn_LastAccessed");
-                lvDuplicates.Columns[5].Text = LanguageManager.GetString("ListViewColumn_MD5Checksum");
+                lvDuplicates.Columns[5].Text = LanguageManager.GetString("ListViewColumn_SHA1Checksum");
             }
 
             if (lvDuplicates.Items.Count > 0)
@@ -4561,7 +4558,7 @@ namespace DupTerminator
                     if (!(checkedListBoxSkipFolder.FindStringExact(ffs.SelectedPath) >= 0))
                     {
                         checkedListBoxSkipFolder.Items.Add(ffs.SelectedPath, true);
-                        //Фокусировка на новом элементе
+                        //зЃ¶з‰¦иЂ”з—¤жЂ…?зЈ¬ зњЌеїё?о‘”е±ђе±™иќ€
                         checkedListBoxSkipFolder.SelectedIndices.Add(checkedListBoxSkipFolder.Items.Count - 1);
                     }
                     else

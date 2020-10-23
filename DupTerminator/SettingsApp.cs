@@ -25,7 +25,7 @@ namespace DupTerminator
         //public int splitDistance = 150;
 
         public Boolean IsConfirmDelete = false;
-        public Boolean IsCheckUpdate = true;
+        public Boolean IsCheckUpdate = false;
         public Boolean IsOrientationVert = true;
         public Boolean IsSameFileName = false;
         public Boolean IsSaveLoadListDub = true;

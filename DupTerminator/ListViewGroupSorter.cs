@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 //using System.Collections;
 //using System.Text.RegularExpressions;	
 using System.Windows.Forms;
@@ -56,10 +56,10 @@ namespace DupTerminator
 			else
 			{
 				// Compare the two items
-                //путь
+                //зџ¬ићЇ
 				//compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text,listviewY.SubItems[ColumnToSort].Text);
                 compareResult = ObjectCompare.Compare(listviewX.SubItems["MD5Checksum"].Text, listviewY.SubItems["MD5Checksum"].Text);
-                //потом md5
+                //й•±иќѕ?md5
 			    if (compareResult == 0)
 			    {
                     //compareResult = ObjectCompare.Compare(listviewX.SubItems["MD5Checksum"].Text, listviewY.SubItems["MD5Checksum"].Text);
@@ -136,7 +136,7 @@ namespace DupTerminator
                             return string.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
                         else
                             return string.Compare(((ListViewGroup)y).Header, ((ListViewGroup)x).Header);*/
-                        /*if (result != 0)  //если одинаковые то сортируем по другой колонке
+                        /*if (result != 0)  //зѕји…“ й’їжЎ§ељ“й’јоЋ’ иќѕ иЂ¦з—±жЎЉз®¦?й•± жјЇз­±й“‹ и§ђи…©й»»?
                         {
                             if (sortOrder == System.Windows.Forms.SortOrder.Ascending)
                             {
@@ -152,10 +152,10 @@ namespace DupTerminator
 
 
                 // Compare the two items
-                //путь
+                //зџ¬ићЇ
                 //compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text,listviewY.SubItems[ColumnToSort].Text);
                 /*compareResult = ObjectCompare.Compare(listviewX.SubItems["MD5Checksum"].Text, listviewY.SubItems["MD5Checksum"].Text);
-                //потом md5
+                //й•±иќѕ?md5
                 if (compareResult == 0)
                 {
                     //compareResult = ObjectCompare.Compare(listviewX.SubItems["MD5Checksum"].Text, listviewY.SubItems["MD5Checksum"].Text);

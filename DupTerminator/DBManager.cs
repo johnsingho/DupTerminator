@@ -54,8 +54,8 @@ namespace DupTerminator
         }//*/
 
         public bool Active
-        { 
-            get; 
+        {
+            get;
             set; 
         }
 
@@ -71,7 +71,7 @@ namespace DupTerminator
                            ExtendedFileInfo (path           TEXT NOT NULL,
                                              lastWriteTime	TEXT NOT NULL,
 	                                         length	        INTEGER NOT NULL, 
-                                             md5            TEXT,
+                                             hashVal        TEXT,
                             PRIMARY KEY(Path,LastWriteTime,Length))";
 
             SQLiteCommand command = new SQLiteCommand(sql, _sqliteConnection);
@@ -118,24 +118,24 @@ namespace DupTerminator
             return size;
         }
 
-        public void Add(string path, DateTime lastWriteTime, long length, string md5)
+        public void Add(string path, DateTime lastWriteTime, long length, string sHash)
         {
             System.Diagnostics.Debug.Assert(Active = true);
 
-            if (path == null || lastWriteTime == null || length == null)
-                new CrashReport("path == null || lastWriteTim == null || length == null").ShowDialog();
+            if (path == null || lastWriteTime == null)
+                new CrashReport("path == null || lastWriteTim == null").ShowDialog();
 
             if (_sqliteConnection.State != ConnectionState.Open)
                 _sqliteConnection.Open();
 
-            String SQLInsert = "INSERT OR REPLACE INTO ExtendedFileInfo(path, lastWriteTime, length, md5) VALUES(?, ?, ?, ?) ";
+            String SQLInsert = "INSERT OR REPLACE INTO ExtendedFileInfo(path, lastWriteTime, length, hashVal) VALUES(?, ?, ?, ?) ";
             //String SQLInsert = "UPDATE ExtendedFileInfo SET md5 = ? WHERE path = ? AND lastWriteTime = ? AND length = ?";
             SQLiteCommand command = _sqliteConnection.CreateCommand();
             command.CommandText = SQLInsert;
             command.Parameters.AddWithValue("path", path);
             command.Parameters.AddWithValue("lastWriteTime", lastWriteTime);
             command.Parameters.AddWithValue("length", length);
-            command.Parameters.AddWithValue("md5", md5);
+            command.Parameters.AddWithValue("hashVal", sHash);
 
             try
             {
@@ -154,21 +154,21 @@ namespace DupTerminator
             _sqliteConnection.Close();
         }
 
-        public void Update(string path, DateTime lastWriteTime, long length, string md5)
+        public void Update(string path, DateTime lastWriteTime, long length, string sHash)
         {
-            if (path == null || lastWriteTime == null || length == null)
-                new CrashReport("path == null || lastWriteTim == null || length == null").ShowDialog();
+            if (path == null || lastWriteTime == null)
+                new CrashReport("path == null || lastWriteTim == null").ShowDialog();
 
             if (_sqliteConnection.State != ConnectionState.Open)
                 _sqliteConnection.Open();
 
-            String SQLInsert = "UPDATE ExtendedFileInfo SET md5 = ? WHERE path = ? AND lastWriteTime = ? AND length = ?";
+            String SQLInsert = "UPDATE ExtendedFileInfo SET hashVal = ? WHERE path = ? AND lastWriteTime = ? AND length = ?";
             SQLiteCommand command = _sqliteConnection.CreateCommand();
             command.CommandText = SQLInsert;
             command.Parameters.AddWithValue("path", path);
             command.Parameters.AddWithValue("lastWriteTime", lastWriteTime);
             command.Parameters.AddWithValue("length", length);
-            command.Parameters.AddWithValue("md5", md5);
+            command.Parameters.AddWithValue("hashVal", sHash);
 
             try
             {
@@ -198,10 +198,16 @@ namespace DupTerminator
 
             DataTable dt = new DataTable();
             SQLiteDataAdapter da = new SQLiteDataAdapter(command);
-            da.Fill(dt);
+            try
+            {
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
 
             //da.Dispose();
-
             _sqliteConnection.Close();
 
             return dt;
@@ -209,12 +215,12 @@ namespace DupTerminator
 
 
 
-        public string ReadMD5(string fullName, DateTime lastWriteTime, long length)
+        public string ReadHash(string fullName, DateTime lastWriteTime, long length)
         {
             System.Diagnostics.Debug.Assert(Active = true);
             //System.Diagnostics.Debug.WriteLine("Active " + Active + ", ReadMD5(" + fullName );
 
-            string md5 = String.Empty;
+            string sHash = String.Empty;
             String SQLSelect = @"SELECT * FROM ExtendedFileInfo WHERE Path = ? AND 
                                  LastWriteTime = ? AND
                                  Length = ?";
@@ -237,15 +243,12 @@ namespace DupTerminator
                 reader = command.ExecuteReader(); 
                 while (reader.Read())
                 {
-                    //Console.WriteLine("Path: " + reader["path"] + "\tLastWriteTime: " + reader["LastWriteTime"] + "\tmd5: " + reader["md5"]);
-                    //System.Diagnostics.Debug.WriteLine("Read md5 Path: " + reader["path"] + "\tLastWriteTime: " + reader["LastWriteTime"] + "\tmd5: " + reader["md5"]);
-                    md5 = reader["md5"].ToString();
+                    sHash = reader["hashVal"].ToString();
                 }
             }
             catch (Exception ex)
             {
                 _sqliteConnection.Close();
-                //MessageBox.Show(ex.Message + '\n' + fullName, "Error in function ReadMD5()", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 new CrashReport(ex).ShowDialog();
             }
 
@@ -263,7 +266,7 @@ namespace DupTerminator
  
             _sqliteConnection.Close();
 
-            return md5;
+            return sHash;
         }
 
         public void Delete(string fullName, DateTime lastWriteTime, long length)
