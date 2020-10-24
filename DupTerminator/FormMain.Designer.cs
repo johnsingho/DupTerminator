@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace DupTerminator
 {
     partial class FormMain
@@ -126,7 +128,7 @@ namespace DupTerminator
             this.tabPageDuplicate = new System.Windows.Forms.TabPage();
             this.lvDuplicates = new System.Windows.Forms.ListView();
             this.panelButtons = new System.Windows.Forms.Panel();
-            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonClear = new System.Windows.Forms.Button();
             this.buttonSelectBy = new System.Windows.Forms.Button();
             this.cmsSelectBy = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectByFileSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -174,6 +176,7 @@ namespace DupTerminator
             // buttonStart
             // 
             this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonStart.Location = new System.Drawing.Point(3, 2);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(117, 21);
@@ -1103,10 +1106,10 @@ namespace DupTerminator
             this.lvDuplicates.FullRowSelect = true;
             this.lvDuplicates.GridLines = true;
             this.lvDuplicates.HideSelection = false;
-            this.lvDuplicates.Location = new System.Drawing.Point(3, 33);
+            this.lvDuplicates.Location = new System.Drawing.Point(3, 35);
             this.lvDuplicates.Name = "lvDuplicates";
             this.lvDuplicates.ShowGroups = false;
-            this.lvDuplicates.Size = new System.Drawing.Size(675, 379);
+            this.lvDuplicates.Size = new System.Drawing.Size(675, 380);
             this.lvDuplicates.TabIndex = 0;
             this.lvDuplicates.UseCompatibleStateImageBehavior = false;
             this.lvDuplicates.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvDuplicates_AfterLabelEdit);
@@ -1118,7 +1121,7 @@ namespace DupTerminator
             // 
             // panelButtons
             // 
-            this.panelButtons.Controls.Add(this.buttonDelete);
+            this.panelButtons.Controls.Add(this.buttonClear);
             this.panelButtons.Controls.Add(this.buttonSelectBy);
             this.panelButtons.Controls.Add(this.buttonMove);
             this.panelButtons.Controls.Add(this.buttonDeleteSelectedFiles);
@@ -1128,28 +1131,27 @@ namespace DupTerminator
             this.panelButtons.Size = new System.Drawing.Size(672, 411);
             this.panelButtons.TabIndex = 26;
             // 
-            // buttonDelete
+            // buttonClear
             // 
-            this.buttonDelete.Image = ((System.Drawing.Image)(resources.GetObject("buttonDelete.Image")));
-            this.buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonDelete.Location = new System.Drawing.Point(3, 3);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(87, 23);
-            this.buttonDelete.TabIndex = 1;
-            this.buttonDelete.Text = "Delete";
-            this.buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            this.buttonClear.Image = global::DupTerminator.Properties.Resources.moveto16;
+            this.buttonClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonClear.Location = new System.Drawing.Point(363, 3);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(77, 25);
+            this.buttonClear.TabIndex = 26;
+            this.buttonClear.Text = "Clear All";
+            this.buttonClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.ButtonClear_Click);
             // 
             // buttonSelectBy
             // 
             this.buttonSelectBy.ContextMenuStrip = this.cmsSelectBy;
             this.buttonSelectBy.Image = ((System.Drawing.Image)(resources.GetObject("buttonSelectBy.Image")));
             this.buttonSelectBy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSelectBy.Location = new System.Drawing.Point(357, 3);
+            this.buttonSelectBy.Location = new System.Drawing.Point(263, 3);
             this.buttonSelectBy.Name = "buttonSelectBy";
-            this.buttonSelectBy.Size = new System.Drawing.Size(77, 23);
+            this.buttonSelectBy.Size = new System.Drawing.Size(77, 25);
             this.buttonSelectBy.TabIndex = 24;
             this.buttonSelectBy.Text = "Select by";
             this.buttonSelectBy.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1246,9 +1248,9 @@ namespace DupTerminator
             // 
             this.buttonMove.Image = ((System.Drawing.Image)(resources.GetObject("buttonMove.Image")));
             this.buttonMove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonMove.Location = new System.Drawing.Point(267, 3);
+            this.buttonMove.Location = new System.Drawing.Point(173, 3);
             this.buttonMove.Name = "buttonMove";
-            this.buttonMove.Size = new System.Drawing.Size(72, 23);
+            this.buttonMove.Size = new System.Drawing.Size(72, 25);
             this.buttonMove.TabIndex = 25;
             this.buttonMove.Text = "Move to";
             this.buttonMove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1259,9 +1261,9 @@ namespace DupTerminator
             // 
             this.buttonDeleteSelectedFiles.Image = ((System.Drawing.Image)(resources.GetObject("buttonDeleteSelectedFiles.Image")));
             this.buttonDeleteSelectedFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonDeleteSelectedFiles.Location = new System.Drawing.Point(108, 3);
+            this.buttonDeleteSelectedFiles.Location = new System.Drawing.Point(14, 3);
             this.buttonDeleteSelectedFiles.Name = "buttonDeleteSelectedFiles";
-            this.buttonDeleteSelectedFiles.Size = new System.Drawing.Size(141, 23);
+            this.buttonDeleteSelectedFiles.Size = new System.Drawing.Size(141, 25);
             this.buttonDeleteSelectedFiles.TabIndex = 23;
             this.buttonDeleteSelectedFiles.Text = "Delete Selected Files";
             this.buttonDeleteSelectedFiles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1397,7 +1399,6 @@ namespace DupTerminator
         private System.Windows.Forms.TabPage tabPageSkipFolder;
         private System.Windows.Forms.Button buttonAddDirectory;
         private System.Windows.Forms.TabPage tabPageDuplicate;
-        private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.ListView lvDuplicates;
         private System.Windows.Forms.Button buttonDeleteSelectedFiles;
         private System.Windows.Forms.Panel panel1;
@@ -1454,6 +1455,7 @@ namespace DupTerminator
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_CurrentText;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Current;
         private System.Windows.Forms.Button buttonClearNonExistent;
+        private Button buttonClear;
     }
 }
 

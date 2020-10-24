@@ -6,6 +6,7 @@ using System.IO;
 
 using System.Linq;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace DupTerminator
 {
@@ -69,26 +70,25 @@ namespace DupTerminator
         {
             try
             {
-                //if (_directoriesSearched.Contains(di.FullName.ToString())) 龛觐沅?礤 玎躅滂?
-                //    return;
-
                 List<FileInfo> files = new List<FileInfo>();
 
                 //疣聒桊屙?
                 if (_includePattern.Count > 0)
                 {
                     foreach (string pattern in _includePattern)
-                        files.AddRange(di.GetFiles(pattern, SearchOption.TopDirectoryOnly));
+                    { files.AddRange(di.GetFiles(pattern, SearchOption.TopDirectoryOnly)); }
                 }
                 else
-                    files.AddRange(di.GetFiles());
+                { files.AddRange(di.GetFiles()); }
 
                 if (_excludePattern.Count > 0)
                 {
                     List<FileInfo> nofileZ = new List<FileInfo>();
 
                     foreach (string nopattern in _excludePattern)
-                        nofileZ.AddRange(di.GetFiles(nopattern, SearchOption.TopDirectoryOnly));
+                    { 
+                        nofileZ.AddRange(di.GetFiles(nopattern, SearchOption.TopDirectoryOnly)); 
+                    }
 
                     if (nofileZ.Count != 0)
                     {
@@ -117,15 +117,12 @@ namespace DupTerminator
 
                         if (settings.Fields.IsScanMax)
                             if (al.Count >= settings.Fields.MaxFile)
-                                return;
+                            { return; }
                     }
                 }
 
                 _fileFoundCount += files.Count;
                 FolderChangedEvent(_fileFoundCount, di.FullName);
-                //m_EvSuspend.WaitOne(); //pause
-
-                //_directoriesSearched.Add((string)di.FullName.ToString());
             }
             catch (System.IO.FileNotFoundException)
             {
@@ -138,7 +135,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Add all files from the requested directory to the filearraylist. If 
+        /// Add all files from the requested directory to the filearraylist. If
         /// isRecurse is true, add all file in sub directories as well.
         /// </summary>
         /// <param name="di">Directory from which to add files</param>
@@ -160,19 +157,15 @@ namespace DupTerminator
 
                 if (settings.Fields.IsScanMax)
                     if (al.Count >= settings.Fields.MaxFile)
-                        return;
+                    { return; }
 
                 //Add subdirectories
                 if (isRecurse)
                 {
                     System.IO.DirectoryInfo[] dList = di.GetDirectories();
                     for (int i = 0; i < dList.Length; i++)
-                        /*if (!_directorySkipList.Contains(dList[i].FullName))
-                            AddAllFiles(dList[i], ref al, isRecurse);*/
-                        //if (_directorySkipList.BinarySearch(dList[i].FullName)<0)
-                        //if (_directorySkipList.IndexOf(dList[i].FullName) != -1)
                         if (!_directorySkipList.Contains(dList[i].FullName, StringComparer.OrdinalIgnoreCase))
-                            AddAllFiles(dList[i], ref al, isRecurse);
+                        { AddAllFiles(dList[i], ref al, isRecurse); }
                 }
             }
             catch (PathTooLongException ex)
@@ -201,9 +194,9 @@ namespace DupTerminator
             try
             {
                 if (recurse)
-                    return System.IO.Directory.GetFiles(dir, "*.*", System.IO.SearchOption.AllDirectories).Length;
+                { return System.IO.Directory.GetFiles(dir, "*.*", System.IO.SearchOption.AllDirectories).Length; }
                 else
-                    return System.IO.Directory.GetFiles(dir, "*.*", System.IO.SearchOption.TopDirectoryOnly).Length;
+                { return System.IO.Directory.GetFiles(dir, "*.*", System.IO.SearchOption.TopDirectoryOnly).Length; }
             }
 
             catch (UnauthorizedAccessException)
@@ -225,7 +218,7 @@ namespace DupTerminator
             ArrayList fileSizeMatchList = new ArrayList();
 
             if (inputList.Count <= 0)
-                return null;
+            { return null; }
 
             inputList.Sort(new SortBySize());
 
@@ -353,37 +346,27 @@ namespace DupTerminator
 
         private void ScanForDuplicates()
         {
-            //System.Diagnostics.Debug.WriteLine("ScanForDuplicates dbManager.Active=" + dbManager.Active);
             Clear_Results();
 
             if (!String.IsNullOrEmpty(settings.Fields.IncludePattern))
-                ParsePattern(settings.Fields.IncludePattern, ref _includePattern);
+            { ParsePattern(settings.Fields.IncludePattern, ref _includePattern); }
             if (!String.IsNullOrEmpty(settings.Fields.ExcludePattern))
-                ParsePattern(settings.Fields.ExcludePattern, ref _excludePattern);
+            { ParsePattern(settings.Fields.ExcludePattern, ref _excludePattern); }
             if ((_includePattern.Count > 0) && (_excludePattern.Count > 0))
             {
                 foreach (string forbiddenPattern in _excludePattern)
                     if (_includePattern.Contains(forbiddenPattern))
-                        _includePattern.Remove(forbiddenPattern);
+                    { _includePattern.Remove(forbiddenPattern); }
             }
 
             if (settings.Fields.UseDB)
             {
                 if (dbManager == null)
-                    dbManager = new DBManager();
+                { dbManager = new DBManager(); }
                 dbManager.Active = true;
                 dbManager.CreateDataBase();
             }
-            //System.Diagnostics.Debug.WriteLine("ScanForDuplicates dbManager.Active=" + dbManager.Active);
 
-            // Get the total number of files we are going to check.
-            /*foreach (object fItem in _directorySearchList)
-            {
-                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(fItem.ToString());
-
-                AddAllFiles(di, ref _completeFileList, _recurse);
-                di = null;
-            }*/
             foreach (KeyValuePair<string, bool> dItem in _directorySearchList)
             {
                 System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(dItem.Key);
@@ -395,17 +378,17 @@ namespace DupTerminator
             }
 
 
-            FileCountAvailableEvent(_completeFileList.Count);  //耦猁蜩?event ot main form
+            FileCountAvailableEvent(_completeFileList.Count);  //report file counts to main win
             FileListAvailableEvent(_completeFileList);  //Add_LVI(
-                        
+
             //if (_completeFileList.Count <= 0)
             //    return;
 
             ArrayList fileList;
             fileList = ParseBySize(_completeFileList); //Group
-            //Parse_By_Size2(ref _completeFileList);
+                                                       //Parse_By_Size2(ref _completeFileList);
             if (settings.Fields.IsSameFileName)
-                fileList = ParseByName(fileList);
+            { fileList = ParseByName(fileList); }
 
             if (fileList == null)
             {
@@ -442,7 +425,7 @@ namespace DupTerminator
                                 }
 
                                 if (FileCheckInProgressEvent != null)
-                                    FileCheckInProgressEvent(efiGroup.fileInfo.FullName, currentFileCount);
+                                { FileCheckInProgressEvent(efiGroup.fileInfo.FullName, currentFileCount); }
                                 _duplicateFileList.Add(efiGroup);
                                 _DuplicateFileSize += Convert.ToUInt64(efiGroup.fileInfo.Length);
                                 _DuplicateCount++;
@@ -470,7 +453,7 @@ namespace DupTerminator
             outpattern.AddRange(tmpPattern);
             //foreach (string minipattern in tmpPattern)
             //    outpattern.Add(minipattern.Trim());
-           // return outpattern;
+            // return outpattern;
         }
 
         /// <summary>
@@ -513,10 +496,10 @@ namespace DupTerminator
         public void Remove_Search_Directory(string dirName)
         {
             if (_directorySearchList == null)
-                return;
+            { return; }
 
             if (_directorySearchList.ContainsKey(dirName))
-                _directorySearchList.Remove(dirName);
+            { _directorySearchList.Remove(dirName); }
 
             return;
         }
@@ -560,14 +543,14 @@ namespace DupTerminator
         /// <summary>
         /// Return the total number of files to compare
         /// </summary>
-        public  double TotalFiles
+        public double TotalFiles
         {
-            get 
+            get
             {
                 if (_completeFileList != null)
-                    return _completeFileList.Count;
+                { return _completeFileList.Count; }
                 else
-                    return 0;
+                { return 0; }
             }
         }
 
@@ -579,9 +562,9 @@ namespace DupTerminator
             get
             {
                 if (_duplicateFileList != null)
-                    return _duplicateFileList.Count;
+                { return _duplicateFileList.Count; }
                 else
-                    return 0;
+                { return 0; }
             }
         }
 
@@ -610,6 +593,5 @@ namespace DupTerminator
             get { return _directorySearchList; }
         }
         #endregion // "Properties
-
     }
 }

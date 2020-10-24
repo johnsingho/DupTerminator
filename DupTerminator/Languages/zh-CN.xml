@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<language culture="en">
-  <author>D.Borisov</author>
+<language culture="zh-CN">
+  <author>johonsing</author>
   <version>1.0</version>
   <messages>
-    <message name="S_NotSetSearchDir" value="Not set search directory!" />
-    <message name="S_Error" value="Error" />
+    <message name="S_NotSetSearchDir" value="未设置待查找目录!" />
+    <message name="S_Error" value="出错" />
     <message name="classTypes_Picture" value="Picture" />
     <message name="classTypes_Audio" value="Audio" />
     <message name="classTypes_Video" value="Video" />
     <message name="classTypes_Documents" value="Documents" />
     <message name="classTypes_Saved sites" value="Saved sites" />
-    <message name="statusStripSearch1" value="File found: " />
-    <message name="statusStripSearch2" value="Duplicate found: " />
+    <message name="statusStripSearch1" value="找到文件: " />
+    <message name="statusStripSearch2" value="找到重复: " />
     <message name="statusStripSearch3" value="Duplicate size: " />
     <message name="statusStripSearch4" value="Time remain: " />
-    <message name="statusStripSearch5" value="Checking file: " />
+    <message name="statusStripSearch5" value="正在检查文件: " />
     <message name="statusStripDubli1" value="Duplicate: " />
     <message name="statusStripDubli2" value="Duplicate size: " />
-    <message name="ComputationChecksum" value="Computation checksum of files..." />
+    <message name="ComputationChecksum" value="正在计算文件hash..." />
     <message name="LoadListLoad" value="Load " />
     <message name="LoadListGroups" value=" groups" />
     <message name="LoadListItem" value=" ListView items" />
@@ -27,13 +27,13 @@
     <message name="SaveList" value="Saving list" />
     <message name="RetrievingStructure" value="Retrieving directory structure information..." />
     <message name="toolTip_buttonStart" value="Starts the search for duplicate files" />
-    <message name="toolTip_buttonAddDirectory" value="Adds directory" />
-    <message name="toolTip_chkRecurse" value="Scan all directories and subdirectories for duplicate files" />
+    <message name="toolTip_buttonAddDirectory" value="添加目录路径" />
+    <message name="toolTip_chkRecurse" value="扫描目录及其子目录，以找出重复文件" />
     <message name="toolTip_comboBoxIncludeExtension" value="Types files which be included to search" />
     <message name="toolTip_comboBoxExcludeExtension" value="Types files which be excluded to search" />
     <message name="toolTip_buttonSelectBy" value="Select by last accessed time, file name, file name length" />
     <message name="toolTip_buttonMove" value="Move selected files to folder" />
-    <message name="statusSearch_CompletedJob" value="Completed Job - No files found" />
+    <message name="statusSearch_CompletedJob" value="Completed Job - 没有找到重复文件" />
     <message name="statusSearch_Cancelled" value="Cancelled" />
     <message name="NewVersion" value="New version " />
     <message name="released" value=" released" />
@@ -44,21 +44,21 @@
     <message name="About" value="About {0}" />
     <message name="Pause" value="Pause" />
     <message name="Resume" value="Resume" />
-    <message name="toolTip_ResumeSearch" value="Resume the search" />
-    <message name="toolTip_PauseSearch" value="Pause are search" />
+    <message name="toolTip_ResumeSearch" value="继续扫描任务" />
+    <message name="toolTip_PauseSearch" value="暂时扫描任务" />
     <message name="Directory" value="Directory " />
     <message name="AlreadyInList" value="already in list!" />
     <message name="ListViewColumn_FileName" value="File Name" />
     <message name="ListViewColumn_Path" value="Path" />
     <message name="ListViewColumn_Size" value="Size" />
     <message name="ListViewColumn_FileType" value="File Type" />
-    <message name="ListViewColumn_LastModified" value="Last Modified" />
+    <message name="ListViewColumn_LastModified" value="上次修改" />
     <message name="ListViewColumn_SHA1Checksum" value="SHA1 Checksum" />
-    <message name="ListViewColumn_SubDirectory" value="Subdirectory" />
+    <message name="ListViewColumn_SubDirectory" value="子目录" />
     <message name="CheckAllSelected" value="Whether check there are groups in which all files are selected" />
     <message name="AllSelected" value="Some groups have ALL copies of Duplicate files selected!&#xD;&#xA;You need to leave at least one file." />
-    <message name="SelectedFilesDelete" value="Selected files delete" />
-    <message name="YouSure" value="Are you sure?" />
+    <message name="SelectedFilesDelete" value="请选择待删除文件" />
+    <message name="YouSure" value="你确定要这么做吗?" />
     <message name="Warning" value="Warning" />
     <message name="ErrorRename" value="Error in Rename: " />
     <message name="MoveFolder" value="Move to Folder" />
@@ -80,12 +80,12 @@
       <property name="buttonSelectInclude.Text" value="Select" />
       <property name="label3.Text" value="Excluded:" />
       <property name="label2.Text" value="Included:" />
-      <property name="groupBoxLessThan.Text" value="Exclude sizes Less than" />
+      <property name="groupBoxLessThan.Text" value="排除文件体积小于" />
       <property name="rdbLGiga.Text" value="Gb" />
       <property name="rdbLMega.Text" value="Mb" />
       <property name="rdbLKilo.Text" value="Kb" />
       <property name="rdbLBytes.Text" value="Bytes" />
-      <property name="groupBoxMoreThan.Text" value="Exclude sizes More than" />
+      <property name="groupBoxMoreThan.Text" value="排除文件体积大于" />
       <property name="rdbMGiga.Text" value="Gb" />
       <property name="rdbMMega.Text" value="Mb" />
       <property name="rdbMKilo.Text" value="Kb" />
@@ -107,9 +107,9 @@
       <property name="selectByFileSizeToolStripMenuItem1.Text" value="Select by File Size" />
       <property name="smallestFilesInEachGroupToolStripMenuItem1.Text" value="Smallest files in each group" />
       <property name="largestFilesInEachGroupToolStripMenuItem1.Text" value="Largest files in each group" />
-      <property name="tmsi_Select_ByLastAcess.Text" value="Select by Last Accessed Time" />
-      <property name="tmsi_Select_ByOldestFileInEachGroup.Text" value="Oldest files in each group" />
-      <property name="tmsi_Select_ByNewestFilesInEachGroup.Text" value="Newest files in each group" />
+      <property name="tmsi_Select_ByLastAcess.Text" value="根据上次编辑时间来选择" />
+      <property name="tmsi_Select_ByOldestFileInEachGroup.Text" value="每组中较老的文件" />
+      <property name="tmsi_Select_ByNewestFilesInEachGroup.Text" value="每组中较新的文件" />
       <property name="tmsi_Select_ByFileName.Text" value="Select by File Name" />
       <property name="tmsi_Select_ByFileNameLength.Text" value="Select by File Name Length" />
       <property name="tmsi_Select_ByShorterFileNameInEachGroup.Text" value="Shorter file name in each group" />
@@ -137,9 +137,9 @@
       <property name="toolStripMenuItem_Save.Text" value="Save" />
       <property name="toolStripMenuItem_Load.Text" value="Load" />
       <property name="toolStripMenuItem_CurrentText.Text" value="Current:" />
-      <property name="toolStripMenuItem_Options.Text" value="Options" />
-      <property name="toolStripMenuItem_Language.Text" value="Language" />
-      <property name="toolStripMenuItem_Settings.Text" value="Settings" />
+      <property name="toolStripMenuItem_Options.Text" value="选项" />
+      <property name="toolStripMenuItem_Language.Text" value="界面语言" />
+      <property name="toolStripMenuItem_Settings.Text" value="配置" />
       <property name="toolStripMenuItem_View.Text" value="View" />
       <property name="toolStripMenuItem_Orientation.Text" value="Orientation" />
       <property name="toolStripMenuItem_Horizontal.Text" value="Horizontal" />

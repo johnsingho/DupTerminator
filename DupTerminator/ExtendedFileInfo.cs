@@ -57,8 +57,10 @@ namespace DupTerminator
                             {
                                 //System.Diagnostics.Debug.WriteLine(String.Format("md5 not found in DB for file {0}, lastwrite: {1}, length: {2}", _fi.FullName, _fi.LastWriteTime, _fi.Length));
                                 _checkSum = CreateSHA1Checksum(_fi.FullName);
-                                //_dbManager.Add(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum);
-                                _dbManager.Update(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum);
+                                if( !_dbManager.Update(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum))
+                                {
+                                    _dbManager.Add(_fi.FullName, _fi.LastWriteTime, _fi.Length, _checkSum);
+                                }
                             }
                             else
                                 _checkSum = sHash;

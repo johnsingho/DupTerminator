@@ -9,6 +9,7 @@ namespace DupTerminator
 {
     /// <summary>
     /// Класс определяющий какие настройки есть в программе
+    /// 配置项
     /// </summary>
     public class SettingsAppFields
     {
@@ -33,7 +34,7 @@ namespace DupTerminator
         public Boolean IsAllowDelAllFiles = false;
         public Boolean IsDontUpdateSize = false;
         public bool IsScanMax = true;
-        public int MaxFile = 250000;
+        public int MaxFile = 500000;
         public int PathHistoryLength = 20;
         public List<string> PathHistory;
         public long[] limits = { 0, long.MaxValue }; //Min Max file size
@@ -136,25 +137,6 @@ namespace DupTerminator
         //Запись настроек в файл
         public void WriteXml()
         {
-            /*XmlSerializer ser = new XmlSerializer(typeof(SettingsAppFields));
-            TextWriter writer = new StreamWriter(Fields.XMLFilePath, false); //перезапись
-            ser.Serialize(writer, Fields);
-            writer.Close();//*/
-            /*using (TextWriter writer = new StreamWriter(Fields.XMLFilePath, false))
-            //using (System.Xml.XmlWriter writer = new System.Xml.XmlWriter(Fields.XMLFilePath, false))
-            {
-                ser.Serialize(writer, Fields);
-                //writer.Flush();
-                writer.Close();
-            }*/
-            /*XmlSerializer ser = new XmlSerializer(typeof(SettingsAppFields));
-            using (FileStream fs = new FileStream(XMLFilePath, FileMode.Create))
-            {
-                using (TextWriter writer = new StreamWriter(fs))
-                {
-                    ser.Serialize(writer, Fields);
-                }
-            }*/
             try
             {
                 XmlSerializer ser = new XmlSerializer(typeof(SettingsAppFields));
@@ -190,21 +172,9 @@ namespace DupTerminator
                 {
                     MessageBox.Show("Format settings.xml not match with exist");
                     //MessageBox.Show("Формат settings.xml не сопадает с существующим");
-                }//*/
-                /*XmlSerializer ser = new XmlSerializer(typeof(SettingsAppFields));
-                using (FileStream fs = new FileStream(XMLFilePath, FileMode.Open))
-                {
-                    using (TextReader reader = new StreamReader(fs))
-                    {
-                        Fields = ser.Deserialize(reader) as SettingsAppFields;
-                    }
-                }*/
+                }
             }
-            /*else
-            {
-                //можно написать вывод какова то сообщения если файла не существует
-                MessageBox.Show(Fields.XMLFilePath + " не существует!");
-            }*/
+
         }
     }
 }

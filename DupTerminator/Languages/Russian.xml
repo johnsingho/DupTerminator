@@ -52,7 +52,7 @@
     <message name="ListViewColumn_Path" value="Путь" />
     <message name="ListViewColumn_Size" value="Размер" />
     <message name="ListViewColumn_FileType" value="Тип файла" />
-    <message name="ListViewColumn_LastAccessed" value="Последний доступ" />
+    <message name="ListViewColumn_LastModified" value="Последний доступ" />
     <message name="ListViewColumn_SHA1Checksum" value="SHA1 контрольная сумма" />
     <message name="ListViewColumn_SubDirectory" value="Поддиректории" />
     <message name="CheckAllSelected" value="Проверка существуют ли группы в которых выделены все файлы" />
@@ -114,7 +114,6 @@
       <property name="tmsi_Select_ByFileNameLength.Text" value="Выбрать по Длине имени файла" />
       <property name="tmsi_Select_ByShorterFileNameInEachGroup.Text" value="Короткое имя файла в каждой группе" />
       <property name="tmsi_Select_ByLongerFileNameInEachGroup.Text" value="Длинное имя файла в каждой группе" />
-      <property name="buttonDelete.Text" value="Удалить" />
       <property name="tmsi_Dubli_SelectAll.Text" value="Выбрать все" />
       <property name="tmsi_Dubli_DeSelectAll.Text" value="Сбросить все" />
       <property name="tmsi_Dubli_SelectAllButOne.Text" value="Выбрать все кроме одного" />

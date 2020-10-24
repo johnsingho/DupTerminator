@@ -1,6 +1,4 @@
-﻿//#define ExtLang  //桤怆鬻?琨觇 ?xml
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -12,6 +10,7 @@ using DupTerminator.Util;
 using System.Globalization;
 using System.Xml; //Language
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 //using Microsoft.VisualBasic;
 //using System.Runtime.InteropServices;//DllImport
 //using System.Drawing.Drawing2D; //menu paint
@@ -24,12 +23,11 @@ namespace DupTerminator
         private ToolTip ttMainForm;
         private FileFunctions fFunctions = new FileFunctions();
         //Properties.Settings mySettings = new Properties.Settings();
-        private SettingsApp _settings = new SettingsApp(); //珏祜??觌囫襦 ?磬耱痤殛囔?
+        private SettingsApp _settings = new SettingsApp();
         private DateTime _timeStart;
         //private int _lastCount;
         //private bool _cancell = false;
 
-        //钺疣犷蝼觇 耦痱桊钼觇 觐腩眍?
         private ListViewGroupSorter lvwGroupSorter;
 
         public bool AllowListChkUpdate;
@@ -52,12 +50,12 @@ namespace DupTerminator
             InitializeComponent();
 
             if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                taskbarProgress = (ITaskbarList3)new ProgressTaskbar();
+                    || Environment.OSVersion.Version.Major > 6)
+            { taskbarProgress = (ITaskbarList3)new ProgressTaskbar(); }
 
 
             AllowListChkUpdate = true;
-            // Create an instance of a ListView column sorter and assign it 
+            // Create an instance of a ListView column sorter and assign it
             // to the ListView control.
             lvwGroupSorter = new ListViewGroupSorter();
         }
@@ -79,19 +77,18 @@ namespace DupTerminator
             if (!isDotNet4ClientInstalled())
             {
                 if (MessageBox.Show("You Need Microsoft .NET Framework 4.0 Client Profile in order to run this program. Want to download .Net Framework 3.5?", "Warning",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
-                    System.Diagnostics.Process.Start("http://www.microsoft.com/ru-ru/download/details.aspx?id=22");
+                                   MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                { System.Diagnostics.Process.Start("http://www.microsoft.com/ru-ru/download/details.aspx?id=22"); }
                 base.Close();
             }
 
-
             readSetting();
 
-            #if ExtLang
-            SaveLanguages();
-            #else
+#if ExtLang
+        SaveLanguages();
+#else
             InitLanguage();
-            #endif
+#endif
 
             if (_settings.Fields.IsCheckUpdate)
             {
@@ -127,7 +124,7 @@ namespace DupTerminator
             Load_listDirectorySearch(_settings.Fields.LastJob);
             Load_listDirectorySkipped(_settings.Fields.LastJob);
             //if (_settings.Fields.IsSaveLoadListDub)
-                //Load_ListDuplicate();
+            //Load_ListDuplicate();
 
             //System.Diagnostics.Debug.WriteLine("Form1_Load _dbManager.Active=" + _dbManager.Active);
             fFunctions.settings = _settings;
@@ -186,7 +183,7 @@ namespace DupTerminator
                 filePath = Const.fileNameDirectorySearch;
             }
             if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            { Directory.CreateDirectory(directory); }
             if (System.IO.File.Exists(filePath))
             {
                 try
@@ -259,9 +256,9 @@ namespace DupTerminator
                 filePath = Path.Combine(directory, Const.fileNameDirectorySkipped);
             }
             else
-                filePath = Const.fileNameDirectorySkipped;
+            { filePath = Const.fileNameDirectorySkipped; }
             if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            { Directory.CreateDirectory(directory); }
             if (System.IO.File.Exists(filePath))
             {
                 try
@@ -300,7 +297,7 @@ namespace DupTerminator
             ulong size = 0;
             string fileName;
             if (directory == string.Empty)
-                fileName = Path.Combine(Const.defaultDirectory, Const.fileNameListDuplicate);
+            { fileName = Path.Combine(Const.defaultDirectory, Const.fileNameListDuplicate); }
             else
             {
                 fileName = Path.Combine(directory, Const.fileNameListDuplicate);
@@ -389,7 +386,7 @@ namespace DupTerminator
                                     //愉嚯屙桢 沭箫稃
                                     lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                                     if (i > -1)
-                                        i = i - 1;
+                                    { i = i - 1; }
                                     //lvDuplicates.Groups[groupName].Items.RemoveAt(0);
                                     lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
                                 }
@@ -408,7 +405,7 @@ namespace DupTerminator
                     SetStatusDuplicate(LanguageManager.GetString("LoadListResize"));
                     Application.DoEvents();
                     for (int u = 0; u < lvDuplicates.Columns.Count; u++)
-                        lvDuplicates.Columns[u].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    { lvDuplicates.Columns[u].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent); }
 
                     lvDuplicates.EndUpdate();
 
@@ -424,7 +421,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// 昨屙桢 磬耱痤尻
+        /// read from config file
         /// </summary>
         private void readSetting()
         {
@@ -483,7 +480,7 @@ namespace DupTerminator
             if (_settings.Fields.IsSaveLoadListDub)
             {
                 if (lvDuplicates.Items.Count > 0)
-                    Save_ListDuplicate(_settings.Fields.LastJob);
+                { Save_ListDuplicate(_settings.Fields.LastJob); }
                 else if (File.Exists(Const.fileNameListDuplicate))
                 {
                     File.Delete(Const.fileNameListDuplicate);
@@ -507,12 +504,12 @@ namespace DupTerminator
                 if (lvi.SubItems["SubDir"].Tag != null)
                 {
                     if (Convert.ToInt32(lvi.SubItems["SubDir"].Tag) == 1)
-                        isSubDir = true;
+                    { isSubDir = true; }
                     else if (Convert.ToInt32(lvi.SubItems["SubDir"].Tag) == 0)
-                        isSubDir = false;
+                    { isSubDir = false; }
                 }
                 else
-                    new CrashReport("Save_ListDirectorySearch lv.SubItems[SubDir].Tag == null", _settings, lvDirectorySearch).ShowDialog();
+                { new CrashReport("Save_ListDirectorySearch lv.SubItems[SubDir].Tag == null", _settings, lvDirectorySearch).ShowDialog(); }
 
                 lvisd.Path = dir;
                 lvisd.IsSubDir = isSubDir;
@@ -531,12 +528,12 @@ namespace DupTerminator
                 directory = Path.Combine(Application.StartupPath, directory);
                 filePath = Path.Combine(directory, Const.fileNameDirectorySearch);
             }
-            else 
+            else
             {
                 filePath = Const.fileNameDirectorySearch;
             }
             if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            { Directory.CreateDirectory(directory); }
 
             try
             {
@@ -581,7 +578,7 @@ namespace DupTerminator
                 filePath = Const.fileNameDirectorySkipped;
             }
             if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            { Directory.CreateDirectory(directory); }
             try
             {
                 Stream file = new System.IO.FileStream(filePath, FileMode.OpenOrCreate);
@@ -597,6 +594,7 @@ namespace DupTerminator
 
         /// <summary>
         /// Save listForCompare founded duplicate in file.
+        /// 只在查找到的重复文件列表到 listDuplicate.dat
         /// </summary>
         private void Save_ListDuplicate(string directory)
         {
@@ -605,14 +603,14 @@ namespace DupTerminator
             SetStatusDuplicate(LanguageManager.GetString("SaveList"));
             Application.DoEvents();
             if (lvDuplicates == null)
-                new CrashReport("lvDuplicates == null", lvDuplicates).ShowDialog();
+            { new CrashReport("lvDuplicates == null", lvDuplicates).ShowDialog(); }
             try
             {
                 foreach (ListViewGroup group in lvDuplicates.Groups)
                 {
                     myListView.Groups.Add(group.Name);
                 }
-                
+
                 progressBar1.Maximum = lvDuplicates.Items.Count;
                 foreach (ListViewItem item in lvDuplicates.Items)
                 {
@@ -622,14 +620,14 @@ namespace DupTerminator
                     itemMy.Text = item.Text;
                     itemMy.Checked = item.Checked;
                     itemMy.Group = item.Group.Name;
-                    
+
                     for (int i = 1; i < item.SubItems.Count; i++)
                     {
                         ListViewItemSaveSubItem subItem = new ListViewItemSaveSubItem();
-                        
+
                         subItem.Name = item.SubItems[i].Name;
                         subItem.Text = item.SubItems[i].Text;
-                        itemMy.SubItems[i-1] = subItem;
+                        itemMy.SubItems[i - 1] = subItem;
                     }
                     myListView.Items.Add(itemMy);
                     progressBar1.PerformStep();
@@ -648,9 +646,9 @@ namespace DupTerminator
                     filePath = Path.Combine(directory, Const.fileNameListDuplicate);
                 }
                 else
-                    filePath = Const.fileNameListDuplicate;
+                { filePath = Const.fileNameListDuplicate; }
                 if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
+                { Directory.CreateDirectory(directory); }
 
                 Stream file3 = new System.IO.FileStream(filePath, FileMode.Create);
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter3 =
@@ -709,7 +707,7 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// Current file being processed 
+        /// Current file being processed
         /// </summary>
         /// <param name="fileName">Filename of file getting processed.</param>
         //delegate in fileFunction public delegate void FileCheckInProgressDelegate(string fileName, int currentCount);
@@ -728,8 +726,8 @@ namespace DupTerminator
             progressBar1.Value = currentCount;
 
             if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                taskbarProgress.SetProgressValue(this.Handle, Convert.ToUInt64(progressBar1.Value), Convert.ToUInt64(progressBar1.Maximum));
+                    || Environment.OSVersion.Version.Major > 6)
+            { taskbarProgress.SetProgressValue(this.Handle, Convert.ToUInt64(progressBar1.Value), Convert.ToUInt64(progressBar1.Maximum)); }
 
 
             /*TimeSpan timeDiff = DateTime.UtcNow - _timeStart;
@@ -769,7 +767,7 @@ namespace DupTerminator
         {
             if (InvokeRequired)
             {
-                object[] eventArgs = { Count};
+                object[] eventArgs = { Count };
                 Invoke(new FileCountCompleteDelegate(FileCountCompleteEventHandler), eventArgs);
                 return;
             }
@@ -790,7 +788,7 @@ namespace DupTerminator
         {
             if (InvokeRequired)
             {
-                object[] eventArgs = {fl};
+                object[] eventArgs = { fl };
                 Invoke(new CompleteFileListAvailableDelegate(CompleteFileListAvailableEventHandler), eventArgs);
                 return;
             }
@@ -806,7 +804,8 @@ namespace DupTerminator
 
 
         /// <summary>
-        /// All files have been processed. Put listForCompare in duplicate file listForCompare. 念徉怆屙桢 潴犭桕囹钼 ?lvDuplicate
+        /// All files have been processed. Put listForCompare in duplicate file listForCompare. 
+        /// 扫描完成了，展示结果集
         /// </summary>
         /// <param name="dl">Arraylist collection of duplicate files.</param>
         private delegate void DuplicatFileListAvailableDelegate(System.Collections.ArrayList dl);
@@ -829,13 +828,13 @@ namespace DupTerminator
             //SetStatusSearch("Adding duplicates to ListView...");
             progressBar1.Value = 0;
             if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
+                    || Environment.OSVersion.Version.Major > 6)
+            { taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS); }
 
-           // long s1, s2, s3, s4, s5;
+            // long s1, s2, s3, s4, s5;
             //Stopwatch sWatch = new Stopwatch();
             //Debug.WriteLine("Hashtable groups.Add");
-            //sWatch.Start(); //膻犷?磬犷?铒屦圉栝 (疣犷蜞 ?徉珙?溧眄) 
+            //sWatch.Start(); //膻犷?磬犷?铒屦圉栝 (疣犷蜞 ?徉珙?溧眄)
             Color groupColor = _settings.Fields.ColorRow1.ToColor();
             //System.Collections.Hashtable groups = new System.Collections.Hashtable();
             Dictionary<string, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
@@ -850,13 +849,13 @@ namespace DupTerminator
                     groups.Add(subItemText, new ListViewGroup(subItemText, subItemText));
                     lvDuplicates.Groups.Add(subItemText, subItemText);
                     if (groupColor == _settings.Fields.ColorRow2.ToColor())
-                        groupColor = _settings.Fields.ColorRow1.ToColor();
+                    { groupColor = _settings.Fields.ColorRow1.ToColor(); }
                     else
-                        groupColor = _settings.Fields.ColorRow2.ToColor();
+                    { groupColor = _settings.Fields.ColorRow2.ToColor(); }
                 }
                 Add_LVI(lvDuplicates, item, true, groupColor);
             }
-           // sWatch.Stop();
+            // sWatch.Stop();
             //Console.WriteLine(sWatch.ElapsedMilliseconds.ToString());
             //Debug.WriteLine("Milliseconds="+sWatch.ElapsedMilliseconds.ToString());
             //s1 = sWatch.ElapsedMilliseconds;
@@ -870,7 +869,7 @@ namespace DupTerminator
             //sWatch.Start();
             //SetStatusDuplicate("AutoResize");
             for (int i = 0; i < lvDuplicates.Columns.Count; i++)
-                lvDuplicates.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            { lvDuplicates.Columns[i].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent); }
             //sWatch.Stop();
             //Debug.WriteLine("Milliseconds=" + sWatch.ElapsedMilliseconds.ToString());
             //s2 = sWatch.ElapsedMilliseconds;
@@ -1008,8 +1007,8 @@ namespace DupTerminator
                 //ttMainForm.SetToolTip(buttonStart, "Resume the search");
                 ttMainForm.SetToolTip(buttonStart, LanguageManager.GetString("toolTip_ResumeSearch"));
                 if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                    || Environment.OSVersion.Version.Major > 6)
-                    taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_PAUSED);
+                        || Environment.OSVersion.Version.Major > 6)
+                { taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_PAUSED); }
                 return;
             }
             if (buttonStart.Text == LanguageManager.GetString("Resume"))
@@ -1017,8 +1016,8 @@ namespace DupTerminator
                 fFunctions.ResumeSearch();
                 buttonStart.Text = LanguageManager.GetString("Pause");
                 if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                    taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL);
+                        || Environment.OSVersion.Version.Major > 6)
+                { taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NORMAL); }
                 return;
             }
             if (lvDirectorySearch.CheckedIndices.Count == 0)
@@ -1033,8 +1032,8 @@ namespace DupTerminator
 
             progressBar1.Value = 0;
             if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                taskbarProgress.SetProgressValue(this.Handle, Convert.ToUInt64(progressBar1.Value), Convert.ToUInt64(progressBar1.Maximum));
+                    || Environment.OSVersion.Version.Major > 6)
+            { taskbarProgress.SetProgressValue(this.Handle, Convert.ToUInt64(progressBar1.Value), Convert.ToUInt64(progressBar1.Maximum)); }
 
             SetStatusSearch();
             pictureBox1.Image = null;
@@ -1067,11 +1066,11 @@ namespace DupTerminator
                 string dir = lvi.Text;
                 bool isSubDir = false;
                 if (lvi.SubItems["SubDir"].Text == LanguageManager.GetString("Yes"))
-                    isSubDir = true;
+                { isSubDir = true; }
                 else if (lvi.SubItems["SubDir"].Text == LanguageManager.GetString("No"))
-                    isSubDir = false;
+                { isSubDir = false; }
                 else
-                    new CrashReport("lvDirectorySearch.SubItems[SubDir] not equal Yes or No", _settings, lvDirectorySearch).ShowDialog();
+                { new CrashReport("lvDirectorySearch.SubItems[SubDir] not equal Yes or No", _settings, lvDirectorySearch).ShowDialog(); }
 
 
                 //System.Diagnostics.Debug.WriteLine("Add directory in fFunctions() " + dir + ", subdir=" + isSubDir);
@@ -1089,7 +1088,7 @@ namespace DupTerminator
 
             //SetStatusSearch("Retrieving directory structure information...");
             SetStatusSearch(LanguageManager.GetString("RetrievingStructure"));
-            
+
             fFunctions.BeginSearch();
 
             //疱珞朦蜞螓 忸玮疣弪 麇疱?耦猁蜩?DuplicateFileListAvailableDelegate DuplicatFileListAvailableEventHandler(System.Collections.ArrayList dl)
@@ -1107,8 +1106,8 @@ namespace DupTerminator
 
             progressBar1.Value = 0;
             if ((Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1)
-                || Environment.OSVersion.Version.Major > 6)
-                taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS);
+                    || Environment.OSVersion.Version.Major > 6)
+            { taskbarProgress.SetProgressState(this.Handle, TBPFLAG.TBPF_NOPROGRESS); }
         }
 
         #region Main Menu
@@ -1219,11 +1218,12 @@ namespace DupTerminator
                 tsmiResetDock.Enabled = true;*/
             }
 
-           //this.ResumeLayout();
+            //this.ResumeLayout();
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
-        {//CancelButton 镥疱踱囹噱?
+        {
+            //CancelButton 镥疱踱囹噱?
             //MessageBox.Show(e.KeyCode.ToString());
             if (e.KeyCode.Equals(Keys.Escape) && toolStripMenuItem_FullScreen.Checked)
             {
@@ -1237,7 +1237,7 @@ namespace DupTerminator
             {
                 if ((sender != splitContainer1.Panel2) || ((sender == splitContainer1.Panel2) && (splitContainer1.Orientation == Orientation.Vertical)))
                 //menuMain.Visible = (e.Y < SHOW_SENSITIVITY);
-                menuMain.Visible = (e.Location.Y < SHOW_SENSITIVITY);
+                { menuMain.Visible = (e.Location.Y < SHOW_SENSITIVITY); }
                 //menuMain.Visible = (sender.Location.Y < SHOW_SENSITIVITY);
                 //MessageBox.Show(e.Location.ToString());
             }
@@ -1304,11 +1304,11 @@ namespace DupTerminator
             if (nmMin.Value != 0)
             {
                 if (rdbLBytes.Checked)
-                    multiL = 1;
+                { multiL = 1; }
                 else if (rdbLKilo.Checked)
-                    multiL = 1024;
+                { multiL = 1024; }
                 else if (rdbLMega.Checked)
-                    multiL = 1024 * 1024;
+                { multiL = 1024 * 1024; }
                 else
                 {
                     multiL = 1024 * 1024 * 1024;
@@ -1319,11 +1319,11 @@ namespace DupTerminator
             if (nmMax.Value != 0)
             {
                 if (rdbMBytes.Checked)
-                    multiM = 1;
+                { multiM = 1; }
                 else if (rdbMKilo.Checked)
-                    multiM = 1024;
+                { multiM = 1024; }
                 else if (rdbMMega.Checked)
-                    multiM = 1024 * 1024;
+                { multiM = 1024 * 1024; }
                 else
                 {
                     multiM = 1024 * 1024 * 1024;
@@ -1425,7 +1425,7 @@ namespace DupTerminator
                 }*/
 
                 if (lvDirectorySearch.FocusedItem != null)
-                    lvDirectorySearch.FocusedItem.Remove();
+                { lvDirectorySearch.FocusedItem.Remove(); }
             }
             else if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSkipFolder"])
             {
@@ -1444,7 +1444,7 @@ namespace DupTerminator
                         checkedListBoxSkipFolder.SelectedIndices.Add(checkedListBoxSkipFolder.Items.Count - 1);
                     }
                     if (FocusOnList)
-                        checkedListBoxSkipFolder.Focus();
+                    { checkedListBoxSkipFolder.Focus(); }
                 }
             }
         }
@@ -1506,14 +1506,14 @@ namespace DupTerminator
             if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSearchFolder"])
             {
                 if (lvDirectorySearch.FocusedItem != null)
-                    ffs.SelectedPath = lvDirectorySearch.FocusedItem.Text;
+                { ffs.SelectedPath = lvDirectorySearch.FocusedItem.Text; }
             }
             else if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSkipFolder"])
             {
                 if (checkedListBoxSkipFolder.SelectedIndices.Count > 0)
-                    ffs.SelectedPath = Convert.ToString(checkedListBoxSkipFolder.SelectedItem);
+                { ffs.SelectedPath = Convert.ToString(checkedListBoxSkipFolder.SelectedItem); }
             }
-            
+
             if (ffs.ShowDialog() == DialogResult.OK)
             {
                 if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSearchFolder"])
@@ -1546,12 +1546,12 @@ namespace DupTerminator
                         lvi.SubItems.Add(lvsi);
 
                         lvDirectorySearch.Items.Add(lvi);
-                        
+
                         lvi = null;
                         lvsi = null;
                     }
                     else
-                        MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList"));
+                    { MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList")); }
                 }
                 else if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSkipFolder"])
                 {
@@ -1562,7 +1562,7 @@ namespace DupTerminator
                         checkedListBoxSkipFolder.SelectedIndices.Add(checkedListBoxSkipFolder.Items.Count - 1);
                     }
                     else
-                        MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList"));
+                    { MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList")); }
                 }
             }
 
@@ -1593,7 +1593,7 @@ namespace DupTerminator
 
         #region "Helper Functions"
         /// <summary>
-        /// Enable/Disable the controls that can not be used while the 
+        /// Enable/Disable the controls that can not be used while the
         /// search is in progress.
         /// </summary>
         /// <param name="status"></param>
@@ -1658,7 +1658,7 @@ namespace DupTerminator
             colHead.Text = LanguageManager.GetString("ListViewColumn_Size");
             lv.Columns.Add(colHead);
             lv.Columns[2].Width = 75;
-                      
+
             colHead = new ColumnHeader();
             //colHead.Text = "File Type";
             colHead.Text = LanguageManager.GetString("ListViewColumn_FileType");
@@ -1667,7 +1667,7 @@ namespace DupTerminator
 
             colHead = new ColumnHeader();
             //colHead.Text = "Last Accessed";
-            colHead.Text = LanguageManager.GetString("ListViewColumn_LastAccessed");
+            colHead.Text = LanguageManager.GetString("ListViewColumn_LastModified");
             lv.Columns.Add(colHead);
             lv.Columns[4].Width = 125;
 
@@ -1694,7 +1694,7 @@ namespace DupTerminator
             //colHead.Text = LanguageManager.GetString("ListViewColumn_FileName");
             lv.Columns.Add(colHead);
             lv.Columns[1].Width = 100;
-            
+
             lv.View = View.Details;
         }
 
@@ -1711,11 +1711,12 @@ namespace DupTerminator
 
         /// <summary>
         /// Add a new item to the listForCompare
+        /// 填充 lvDuplicates
         /// </summary>
         /// <param name="lv">listview to be updated</param>
         /// <param name="efi">File information to be added to the listForCompare view</param>
         /// <param name="chkSum">If true, add the check sum to the listForCompare as well. This is not added
-        /// every time since the check sum has not always been calculated in the efi and only needs 
+        /// every time since the check sum has not always been calculated in the efi and only needs
         /// to be calculated if two files have the same size. Big deal on large files</param>
         /// <param name="bgColor">Row color</param>
         private void Add_LVI(ListView lv, ExtendedFileInfo efi, bool chkSum, System.Drawing.Color bgColor)
@@ -1728,7 +1729,7 @@ namespace DupTerminator
             lvi = new ListViewItem();
             lvi.Text = efi.fileInfo.Name;
             lvi.Tag = efi.fileInfo.Name;
-            lvi.BackColor = bgColor ;
+            lvi.BackColor = bgColor;
             lvi.Name = "FileName";
 
             lvsi = new ListViewItem.ListViewSubItem();
@@ -1737,30 +1738,28 @@ namespace DupTerminator
             lvi.SubItems.Add(lvsi);
 
             lvsi = new ListViewItem.ListViewSubItem();
-            //lvsi.Text = efi.fileInfo.Length.ToString();
-            lvsi.Text = SpaceThousands(efi.fileInfo.Length);
+            lvsi.Text = efi.fileInfo.Length.ToString();
+            //2020, 不喜欢这种格式
+            //lvsi.Text = SpaceThousands(efi.fileInfo.Length);
             lvsi.Name = "Size";
             lvi.SubItems.Add(lvsi);
-     
+
             lvsi = new ListViewItem.ListViewSubItem();
             lvsi.Text = efi.fileInfo.Extension.Replace(".", string.Empty).ToUpper() + " File";
             lvsi.Name = "FileType";
             lvi.SubItems.Add(lvsi);
 
             lvsi = new ListViewItem.ListViewSubItem();
-            lvsi.Text = efi.fileInfo.LastAccessTime.ToString();
-            lvsi.Name = "LastAccessed";
+            lvsi.Text = efi.fileInfo.LastWriteTime.ToString();
+            lvsi.Name = "LastModified";
             lvi.SubItems.Add(lvsi);
-            
 
             lvsi = new ListViewItem.ListViewSubItem();
             lvsi.Text = efi.CheckSum;
             lvsi.Name = "SHA1Checksum";
             lvi.SubItems.Add(lvsi);
 
-            //灭箫稃
             lvi.Group = lv.Groups[efi.CheckSum];
-
             lv.Items.Add(lvi);
 
             lvi = null;
@@ -1794,10 +1793,10 @@ namespace DupTerminator
                         if (AllChekedInGroups(lvDuplicates.Items[index].Group))
                         {
                             MessageBox.Show(this,
-                                LanguageManager.GetString("AllSelected"),
-                                LanguageManager.GetString("SelectedFilesDelete"),
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                                            LanguageManager.GetString("AllSelected"),
+                                            LanguageManager.GetString("SelectedFilesDelete"),
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
                             lvDuplicates.Items[index].Selected = true;
                             lvDuplicates.EnsureVisible(index);
                             lvDuplicates.EndUpdate();
@@ -1809,13 +1808,7 @@ namespace DupTerminator
                 this.Cursor = Cursors.WaitCursor;
                 LabelStaStrip5.Text = String.Empty;
                 SetStatusDuplicate();
-                //progressBar1.Step = 1;
-                /*SetStatusDuplicate("Delete checked files");
-                Application.DoEvents();
-                long s1, s2, s3;
-                Stopwatch sWatch = new Stopwatch();
-                Debug.WriteLine("Delete from lvDuplicates");
-                sWatch.Start();*/
+
                 progressBar1.Maximum = lvDuplicates.CheckedItems.Count;
                 for (int i = 0; i < lvDuplicates.CheckedItems.Count; i++)
                 {
@@ -1823,6 +1816,7 @@ namespace DupTerminator
                     string spath = Path.Combine(lvDuplicates.CheckedItems[i].SubItems["Path"].Text, lvDuplicates.CheckedItems[i].Text);
                     //System.Diagnostics.Debug.WriteLine(spath);
                     if (System.IO.File.Exists(spath))
+                    {
                         try
                         {
                             MoveToRecycleBin(spath);
@@ -1830,25 +1824,20 @@ namespace DupTerminator
                             //lvDuplicates.CheckedItems[i].Group.Items.Remove(lvDuplicates.CheckedItems[i]);
                             lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.CheckedItems[i]);
                             lvDuplicates.CheckedItems[i].Remove();
-                            i--; //镱蝾祗 黩?耧桉铌 磬 1 忖屦?箦踵?
-                            //镳钼屦赅 磬 蝾 黩?礤?潴犭桕囹钼
+
+                            // if group has only one item, then remove it from duplicate list
                             if (lvDuplicates.Groups[groupName].Items.Count == 1)
                             {
-                                //愉嚯屙桢 沭箫稃
                                 lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
-                                if (i > -1)
-                                    i = i - 1;
                                 lvDuplicates.Groups[groupName].Items.RemoveAt(0);
                                 lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
                             }
                         }
                         catch (System.UnauthorizedAccessException ex)
                         {
-                            //ExtendedFileInfo efi = new ExtendedFileInfo((System.IO.FileInfo)lvsi.Text);
-                            //ExtendedFileInfo efi = new ExtendedFileInfo((System.IO.FileInfo)lvsi.Text);
-                            //System.IO.FileInfo fi = (ExtendedFileInfo)lvsi.;
                             MessageBox.Show(ex.Message);
                         }
+                    }
                     else //not exist
                     {
                         //项戾蜿?皴瘥?铗耋蝰蜮簋?
@@ -1857,8 +1846,7 @@ namespace DupTerminator
                         {
                             foreach (ListViewItem item in lvDuplicates.CheckedItems[i].Group.Items)
                             {
-                                string path;
-                                path = Path.Combine(item.SubItems["Path"].Text, item.SubItems["FileName"].Text);
+                                string path = Path.Combine(item.SubItems["Path"].Text, item.SubItems["FileName"].Text);
                                 if (!System.IO.File.Exists(path))
                                 {
                                     //item.BackColor = System.Drawing.Color.LightGray;
@@ -1866,46 +1854,14 @@ namespace DupTerminator
                                 }
                             }
                         }
-                        //怦?沭箫稃
-                        //foreach (ListViewItem item in lvDuplicates.Items)
-                        //{
-                        //    if (!System.IO.File.Exists(Path.Combine(item.SubItems["Path"].Text, item.SubItems["FileName"].Text)))
-                        //    {
-                        //        item.BackColor = System.Drawing.Color.LightGray;
-                        //    }
-                        //}
                     }
                     progressBar1.PerformStep();
                 }
                 progressBar1.Value = 0;
-                /*sWatch.Stop();
-                Debug.WriteLine("Milliseconds=" + sWatch.ElapsedMilliseconds.ToString());
-                s1 = sWatch.ElapsedMilliseconds;*/
-
-                //SetStatusDuplicate(lvDuplicates.Items.Count);
-                /*SetStatusDuplicate("GroupColoring");
-                Debug.WriteLine("Coloring and showDuplicate");
-                sWatch.Reset();
-                sWatch.Start();*/
-
                 GroupColoring(ref lvDuplicates);
-
-                /*sWatch.Stop();
-                Debug.WriteLine("Milliseconds=" + sWatch.ElapsedMilliseconds.ToString());
-                s2 = sWatch.ElapsedMilliseconds;
-                sWatch.Reset();
-                sWatch.Start();
-                SetStatusDuplicate("showDuplicateInfo");*/
 
                 showDuplicateInfo();
                 showDuplicateInfoSelected();
-
-                /*sWatch.Stop();
-                Debug.WriteLine("Milliseconds=" + sWatch.ElapsedMilliseconds.ToString());
-                s3 = sWatch.ElapsedMilliseconds;
-                MessageBox.Show("Delete from lvDuplicates=" + s1.ToString() + "\n" +
-                                "GroupColoring=" + s2.ToString() + "\n" +
-                                "showDuplicateInfo=" + s3.ToString());*/
 
                 lvDuplicates.EndUpdate();
                 this.Cursor = Cursors.Default;
@@ -1942,17 +1898,54 @@ namespace DupTerminator
             return allChecked;
         }
 
-        private void MoveToRecycleBin(string file)
+
+        #region for delete to recycle
+        private const int FO_DELETE = 0x0003;
+        private const int FOF_ALLOWUNDO = 0x0040;           // Preserve undo information, if possible. 
+        private const int FOF_NOCONFIRMATION = 0x0010;      // Show no confirmation dialog box to the user
+
+        // Struct which contains information that the SHFileOperation function uses to perform file operations. 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct SHFILEOPSTRUCT
         {
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.U4)]
+            public int wFunc;
+            public string pFrom;
+            public string pTo;
+            public short fFlags;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public string lpszProgressTitle;
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+
+        public static bool DeleteFileOrFolder(string path)
+        {
+            SHFILEOPSTRUCT fileop = new SHFILEOPSTRUCT();
+            fileop.wFunc = FO_DELETE;
+            fileop.pFrom = path + "\0\0";
+            fileop.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+            return 0==SHFileOperation(ref fileop);
+        }
+        #endregion
+
+        private void MoveToRecycleBin(string file)
+        {            
             try
             {
-                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file,
-                    Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, 
-                    Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                DeleteFileOrFolder(file);
+                //Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file,
+                //        Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                //        Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                 //return true;
             }
             catch (OperationCanceledException ex)
-            { }
+            { 
+            }
             catch (Exception ex)
             {
                 new CrashReport(ex, _settings, lvDuplicates).ShowDialog();
@@ -1968,12 +1961,14 @@ namespace DupTerminator
         private void SetStatusSearch()
         {
             statusStrip1.Items.Clear();
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
             this.LabelStaStrip1,
             this.LabelStaStrip2,
             this.LabelStaStrip3,
             this.LabelStaStrip4,
-            this.LabelStaStrip5});
+            this.LabelStaStrip5
+            });
 
             statusStrip1.Items[0].Text = LanguageManager.GetString("statusStripSearch1");
             statusStrip1.Items[1].Text = LanguageManager.GetString("statusStripSearch2");
@@ -1987,21 +1982,21 @@ namespace DupTerminator
         }
 
         /// <summary>
-        /// 玉蜞磬怆桠噱?镱腩耋 耦耱?龛 ?疱骅?铗钺疣驽龛 潴犭桕囹钼
+        /// reset duplicate status
         /// </summary>
         private void SetStatusDuplicate()
         {
             statusStrip1.Items.Clear();
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-                {
-                    this.LabelStaStrip1,
-                    this.LabelStaStrip2,
-                    this.LabelStaStrip5
-                });
+            {
+            this.LabelStaStrip1,
+            this.LabelStaStrip2,
+            this.LabelStaStrip5
+            });
         }
 
         /// <summary>
-        /// 玉蜞磬怆桠噱?耱囹篑 潴犭桕囹钼
+        /// 更新状态栏信息
         /// </summary>
         /// <param name="count">暑腓麇耱忸 潴犭桕囹钼 double</param>
         /// <param name="size">朽珈屦 潴犭桕囹钼 ulong</param>
@@ -2015,7 +2010,7 @@ namespace DupTerminator
             getSizeAndNameByte(ref dSizes, ref bytesName);
             statusStrip1.Items[1].Text = LanguageManager.GetString("statusStripDubli2") + dSizes.ToString("F03") + bytesName;
             if (ClearSelected)
-                statusStrip1.Items[2].Text = String.Empty;
+            { statusStrip1.Items[2].Text = String.Empty; }
         }
 
         private void SetStatusDuplicate(int count)
@@ -2029,8 +2024,8 @@ namespace DupTerminator
         /// <param name="status">Status message</param>
         private void SetStatusDuplicate(string status)
         {
-            if (statusStrip1.Items.Count>=2)
-                statusStrip1.Items[2].Text = status;
+            if (statusStrip1.Items.Count >= 2)
+            { statusStrip1.Items[2].Text = status; }
         }
         #endregion
 
@@ -2053,9 +2048,9 @@ namespace DupTerminator
                         if (
                             String.Compare(lvDuplicates.FocusedItem.Group.Items[0].SubItems["Path"].Text,
                                            lvDuplicates.FocusedItem.Group.Items[1].SubItems["Path"].Text, true) == 0)
-                            cmsDuplicates.Items["tmsi_Dubli_MoveSelectedFilesToFolder"].Visible = false;
+                        { cmsDuplicates.Items["tmsi_Dubli_MoveSelectedFilesToFolder"].Visible = false; }
                         else
-                            cmsDuplicates.Items["tmsi_Dubli_MoveSelectedFilesToFolder"].Visible = true;
+                        { cmsDuplicates.Items["tmsi_Dubli_MoveSelectedFilesToFolder"].Visible = true; }
                     }
                 }
             }
@@ -2074,6 +2069,7 @@ namespace DupTerminator
             fileOpen();
         }
 
+        //explorer open file
         private void fileOpen()
         {
             string filePreview;
@@ -2090,7 +2086,7 @@ namespace DupTerminator
                 try
                 {
                     if (System.IO.File.Exists(filePreview))
-                        System.Diagnostics.Process.Start(filePreview);
+                    { System.Diagnostics.Process.Start(filePreview); }
                 }
                 catch (System.ArgumentException ae)
                 {
@@ -2099,6 +2095,33 @@ namespace DupTerminator
                 }
             }
             //return;
+        }
+
+        private static Stream StreamFromFile(string sfPath)
+        {
+            MemoryStream ms = new MemoryStream();
+            using (var fs = new FileStream(sfPath, FileMode.Open))
+            {
+                fs.CopyTo(ms);
+            }
+            return ms;
+        }
+        private bool HasFileExt(string sfile)
+        {
+            bool bRet = false;
+            if(sfile.EndsWith(".gif", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".bmp", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".dib", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".wmf", StringComparison.InvariantCultureIgnoreCase)
+            || sfile.EndsWith(".ico", StringComparison.InvariantCultureIgnoreCase)
+                )
+            {
+                bRet = true;
+            }
+            return bRet;
         }
 
         private void lvDuplicates_SelectedIndexChanged(object sender, EventArgs e)
@@ -2113,10 +2136,11 @@ namespace DupTerminator
                 //filePreview += "\\" + lvsi.Text;
                 try
                 {
-                    if (System.IO.File.Exists(filePreview))
+                    if (System.IO.File.Exists(filePreview) && HasFileExt(filePreview))
                     {
                         if (String.Compare(Path.GetExtension(filePreview), ".gif", true) == 0)
-                        {   //Animated gif
+                        {
+                            //Animated gif
                             Image gifImage = Image.FromFile(filePreview);
                             System.Drawing.Imaging.FrameDimension dimension = new System.Drawing.Imaging.FrameDimension(gifImage.FrameDimensionsList[0]);
                             //int frameCount = gifImage.GetFrameCount(dimension);
@@ -2133,9 +2157,12 @@ namespace DupTerminator
                         }
                         else
                         {
-                            pictureBox1.Load(filePreview);
-                            /*Image image = Image.FromFile(filePreview);
-                            pictureBox1.Image = image;*/
+                            //H.Z.XIN load to memory
+                            //pictureBox1.Load(filePreview);
+                            var ms = StreamFromFile(filePreview);
+                            Image img = Image.FromStream(ms);
+                            pictureBox1.Image = img;
+                            //image.Dispose();
                         }
                         statusStripPicture.Visible = true;
                         toolStripStatusLabel_Width.Text = pictureBox1.Image.Width.ToString();
@@ -2155,23 +2182,9 @@ namespace DupTerminator
                                     item.BackColor = System.Drawing.Color.LightGray;
                                 }
                             }
-                        }//*/
-                        //怦?沭箫稃
-                        /*foreach (ListViewItem item in lvDuplicates.Items)
-                        {
-                            if (
-                                !System.IO.File.Exists(Path.Combine(item.SubItems["Path"].Text,
-                                                                    item.SubItems["FileName"].Text)))
-                            {
-                                item.BackColor = _settings.Fields.ColorRowNotExist.ToColor();
-                            }
-                        }*/
+                        }
                         statusStripPicture.Visible = false;
                     }
-                    //pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                    //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                    //System.Diagnostics.Process.Start(filePreview);
-                    
                 }
                 catch (System.ArgumentException)
                 {
@@ -2193,7 +2206,7 @@ namespace DupTerminator
         /// 暑眚尻耱眍?戾睨 潴犭桕囹钼 - 蔓狃囹?怦?牮铎?钿眍泐
         /// </summary>
         private void tmsi_Dubli_SelectAllButOne_Click(object sender, EventArgs e)
-        {   
+        {
             string prevCheckSum = null;
             string curCheckSum = null;
             ListViewItem lvi;
@@ -2251,6 +2264,7 @@ namespace DupTerminator
             showDuplicateInfoSelected();
         }
 
+        //删除所选
         private void buttonDeleteSelectedFiles_Click(object sender, EventArgs e)
         {
             DeleteSelectedFiles();
@@ -2268,12 +2282,13 @@ namespace DupTerminator
         {
             if (_settings.Fields.IsConfirmDelete)
             {
-                //if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                if (MessageBox.Show(LanguageManager.GetString("YouSure"), LanguageManager.GetString("Warning"), MessageBoxButtons.OKCancel) == DialogResult.OK)
-                    DeleteSelectedItems();
+                if (MessageBox.Show(LanguageManager.GetString("YouSure"), LanguageManager.GetString("Warning"), MessageBoxButtons.OKCancel) != DialogResult.OK)
+                {
+                    return;
+                }
             }
-            else
-                DeleteSelectedItems(); 
+
+            DeleteSelectedItems();
         }
 
         /// <summary>
@@ -2307,7 +2322,7 @@ namespace DupTerminator
 
             progressBar1.Value = 0;
             if (!_settings.Fields.IsAllowDelAllFiles)
-                AllCheckedColoring(ref lvDuplicates);
+            { AllCheckedColoring(ref lvDuplicates); }
             AllowListChkUpdate = true;
             showDuplicateInfoSelected();
         }
@@ -2343,7 +2358,7 @@ namespace DupTerminator
             }
             progressBar1.Value = 0;
             if (!_settings.Fields.IsAllowDelAllFiles)
-                AllCheckedColoring(ref lvDuplicates);
+            { AllCheckedColoring(ref lvDuplicates); }
             GroupColoring(ref lvDuplicates);
             AllowListChkUpdate = true;
             showDuplicateInfoSelected();
@@ -2423,10 +2438,10 @@ namespace DupTerminator
                     if (group.Items.Count >= listForCompare.Count)
                     {
                         bool check = true;
-                        foreach (string compared in listForCompare) //?桉觐祛?
+                        foreach (string compared in listForCompare)  //?桉觐祛?
                         {
                             bool groupApproaches = false;
-                            foreach (ListViewItem item in group.Items) //?蝈牦?
+                            foreach (ListViewItem item in group.Items)  //?蝈牦?
                             {
                                 if (String.Compare(compared, item.SubItems["path"].Text) == 0)
                                 {
@@ -2458,7 +2473,7 @@ namespace DupTerminator
                 }
                 progressBar1.Value = 0;
                 if (!_settings.Fields.IsAllowDelAllFiles)
-                    AllCheckedColoring(ref lvDuplicates);
+                { AllCheckedColoring(ref lvDuplicates); }
                 GroupColoring(ref lvDuplicates);
                 AllowListChkUpdate = true;
                 //lvDuplicates.EndUpdate();
@@ -2484,10 +2499,10 @@ namespace DupTerminator
                     if (_settings.Fields.IsConfirmDelete)
                     {
                         if (MessageBox.Show(LanguageManager.GetString("YouSure"), LanguageManager.GetString("Warning"), MessageBoxButtons.OKCancel) == DialogResult.OK)
-                            DeleteItem(false);
+                        { DeleteItem(false); }
                     }
                     else
-                        DeleteItem(false);
+                    { DeleteItem(false); }
                 }
                 else if (e.KeyCode == Keys.Enter)
                 {
@@ -2614,9 +2629,9 @@ namespace DupTerminator
                 string item1 = lvi.Group.Items[0].SubItems["Path"].Text;
                 string item2 = lvi.Group.Items[1].SubItems["Path"].Text;
                 if (String.Compare(lvi.SubItems["Path"].Text, item1, true) == 0)
-                    targetFolder = item2;
+                { targetFolder = item2; }
                 else
-                    targetFolder = item1;
+                { targetFolder = item1; }
                 targetPath = Path.Combine(targetFolder, lvi.SubItems["FileName"].Text);
 
                 if (System.IO.File.Exists(sourcePath))
@@ -2667,7 +2682,7 @@ namespace DupTerminator
 
                     lvDuplicates.Items[i].Group.Items.Remove(lvDuplicates.Items[i]);
                     lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.Items[i]);
-                    //lvDuplicates.Groups[groupName].Items.RemoveAt(lvDuplicates.Items[i].Index); 
+                    //lvDuplicates.Groups[groupName].Items.RemoveAt(lvDuplicates.Items[i].Index);
                     lvDuplicates.Items[i].Remove();
                     i--;
                     //lvDuplicates.Items.Remove(item);
@@ -2681,7 +2696,7 @@ namespace DupTerminator
                         }*/
                         lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                         if (i > -1)
-                            i = i - 1;
+                        { i = i - 1; }
                         lvDuplicates.Groups[groupName].Items.RemoveAt(0);
                         lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
                     }
@@ -2743,9 +2758,9 @@ namespace DupTerminator
                 string item1 = lvi.Group.Items[0].SubItems["FileName"].Text;
                 string item2 = lvi.Group.Items[1].SubItems["FileName"].Text;
                 if (String.Compare(sourceName, item1, true) == 0)
-                    targetName = item2;
+                { targetName = item2; }
                 else
-                    targetName = item1;
+                { targetName = item1; }
                 targetPath = Path.Combine(sourceFolder, targetName);
 
                 try
@@ -2771,83 +2786,82 @@ namespace DupTerminator
             }
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            if (_settings.Fields.IsConfirmDelete)
-            {
-                if (MessageBox.Show(LanguageManager.GetString("YouSure"), LanguageManager.GetString("Warning"), MessageBoxButtons.OKCancel) == DialogResult.OK)
-                    DeleteItem(true);
-            }
-            else
-                DeleteItem(true);
-        }
+        //private void buttonDelete_Click(object sender, EventArgs e)
+        //{
+        //    if (_settings.Fields.IsConfirmDelete)
+        //    {
+        //        if (MessageBox.Show(LanguageManager.GetString("YouSure"), LanguageManager.GetString("Warning"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+        //        { DeleteItem(true); }
+        //    }
+        //    else
+        //    { DeleteItem(true); }
+        //}
 
         private void DeleteItem(bool FocusOnList)
         {
-            if (lvDuplicates.FocusedItem != null)
+            if (lvDuplicates.FocusedItem == null)
             {
-                //ListViewItem lvi = lvDuplicates.FocusedItem;
-                int index = lvDuplicates.FocusedItem.Index;
-                //System.Diagnostics.Debug.Write("FocusedItem=" + lvDuplicates.FocusedItem.Text + "\n");
-                //System.Diagnostics.Debug.Write(index + " (" + lvi.Text + ")  +1=" + lvDuplicates.Items[index + 1].Text + "+2= " + lvDuplicates.Items[index + 2].Text + "\n");
-                string groupName = lvDuplicates.FocusedItem.Group.Name;
-                //lvi = lvDuplicates.Items[i];
+                System.Diagnostics.Debug.WriteLine("## delete, but not selected!");
+                return;
+            }
 
-                //lvsi = lvi.SubItems["Path"];
-                String path = Path.Combine(lvDuplicates.FocusedItem.SubItems["Path"].Text, lvDuplicates.FocusedItem.SubItems["FileName"].Text);
-                //String path = Path.Combine(lvi.SubItems["Path"].Text, lvi.Name.ToString());
-                if (System.IO.File.Exists(path))
-                    try
+            int index = lvDuplicates.FocusedItem.Index;
+            string groupName = lvDuplicates.FocusedItem.Group.Name;
+            //lvi = lvDuplicates.Items[i];
+
+            //lvsi = lvi.SubItems["Path"];
+            String path = Path.Combine(lvDuplicates.FocusedItem.SubItems["Path"].Text, lvDuplicates.FocusedItem.SubItems["FileName"].Text);
+            //String path = Path.Combine(lvi.SubItems["Path"].Text, lvi.Name.ToString());
+            if (System.IO.File.Exists(path))
+            {
+                try
+                {
+                    MoveToRecycleBin(path);
+                    //lvDuplicates.BeginUpdate();
+                    //lvDuplicates.Items[lvi].Remove();
+                    lvDuplicates.FocusedItem.Group.Items.Remove(lvDuplicates.FocusedItem);
+                    lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.FocusedItem);
+                    lvDuplicates.Items.Remove(lvDuplicates.FocusedItem);
+                    //镳钼屦赅 磬 蝾 黩?礤?潴犭桕囹钼
+                    if (lvDuplicates.Groups[groupName].Items.Count == 1)
                     {
-                        MoveToRecycleBin(path);
-                        //lvDuplicates.BeginUpdate();
-                        //lvDuplicates.Items[lvi].Remove();
-                        lvDuplicates.FocusedItem.Group.Items.Remove(lvDuplicates.FocusedItem);
-                        lvDuplicates.Groups[groupName].Items.Remove(lvDuplicates.FocusedItem);
-                        lvDuplicates.Items.Remove(lvDuplicates.FocusedItem);
-                        //镳钼屦赅 磬 蝾 黩?礤?潴犭桕囹钼
-                        if (lvDuplicates.Groups[groupName].Items.Count == 1)
-                        {
+                        //愉嚯屙桢 沭箫稃
+                        lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
+                        lvDuplicates.Groups[groupName].Items.RemoveAt(0);
 
-                            //愉嚯屙桢 沭箫稃
-                            lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
-                            lvDuplicates.Groups[groupName].Items.RemoveAt(0);
+                        lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
 
-                            lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
-
-                            GroupColoring(ref lvDuplicates);
-                            //SetStatusDuplicate(lvDuplicates.Items.Count);
-                            showDuplicateInfo();
-                            showDuplicateInfoSelected();
-                            //index++;
-                        }
-                        //lvDuplicates.EndUpdate();
-                        //灶牦耔痤怅?磬 戾耱?箐嚯屙眍泐 屐屙蜞
-                        if (lvDuplicates.Items.Count > 0)
-                        {
-                            //System.Diagnostics.Debug.Write("Select lvDuplicates[" + index + "]=" + lvDuplicates.Items[index].Text +"\n");
-                            //lvDuplicates.SelectedItems(index);
-                            if (index <= lvDuplicates.Items.Count - 1)
-                            {
-                                lvDuplicates.SelectedIndices.Add(index);
-                                //lvDuplicates.Focus();
-                                //lvDuplicates.EnsureVisible(lvDuplicates.SelectedIndices[0]);
-                                lvDuplicates.FocusedItem = lvDuplicates.Items[index];
-                            }
-                            else
-                            {
-                                lvDuplicates.SelectedIndices.Add(lvDuplicates.Items.Count - 1);
-                            }
-                            if (FocusOnList)
-                                lvDuplicates.Focus();
-                        }
-
-                        //CheckLvDublicate();
+                        GroupColoring(ref lvDuplicates);
+                        //SetStatusDuplicate(lvDuplicates.Items.Count);
+                        showDuplicateInfo();
+                        showDuplicateInfoSelected();
+                        //index++;
                     }
-                    catch (System.UnauthorizedAccessException ex)
+                    //lvDuplicates.EndUpdate();
+                    //灶牦耔痤怅?磬 戾耱?箐嚯屙眍泐 屐屙蜞
+                    if (lvDuplicates.Items.Count > 0)
                     {
-                        MessageBox.Show(ex.Message);
+                        //System.Diagnostics.Debug.Write("Select lvDuplicates[" + index + "]=" + lvDuplicates.Items[index].Text +"\n");
+                        //lvDuplicates.SelectedItems(index);
+                        if (index <= lvDuplicates.Items.Count - 1)
+                        {
+                            lvDuplicates.SelectedIndices.Add(index);
+                            lvDuplicates.FocusedItem = lvDuplicates.Items[index];
+                        }
+                        else
+                        {
+                            lvDuplicates.SelectedIndices.Add(lvDuplicates.Items.Count - 1);
+                        }
+                        if (FocusOnList)
+                        { lvDuplicates.Focus(); }
                     }
+
+                    //CheckLvDublicate();
+                }
+                catch (System.UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -2897,7 +2911,7 @@ namespace DupTerminator
                         if (System.IO.File.Exists(sourcePath))
                         {
                             if (!Directory.Exists(selectedPath))
-                                Directory.CreateDirectory(selectedPath);
+                            { Directory.CreateDirectory(selectedPath); }
 
                             string targetPath = Path.Combine(selectedPath, lvi.Text);
                             try
@@ -2931,7 +2945,7 @@ namespace DupTerminator
                                         //愉嚯屙桢 沭箫稃
                                         lvDuplicates.Items.RemoveAt(lvDuplicates.Groups[groupName].Items[0].Index);
                                         if (i > -1)
-                                            i = i - 1;
+                                        { i = i - 1; }
                                         lvDuplicates.Groups[groupName].Items.RemoveAt(0);
                                         lvDuplicates.Groups.Remove(lvDuplicates.Groups[groupName]);
                                     }
@@ -2961,7 +2975,7 @@ namespace DupTerminator
                 }
             }
         }
-       
+
 
         private bool IsContainSearchPath(string moveS)
         {
@@ -3021,7 +3035,7 @@ namespace DupTerminator
         {
             if (lv == null)
             {
-                System.Diagnostics.Debug.Assert(false); 
+                System.Diagnostics.Debug.Assert(false);
                 return false;
             }
 
@@ -3033,12 +3047,12 @@ namespace DupTerminator
                 {
                     int nGetMsg = ((WinUtil.IsWindows2000 || WinUtil.IsWindowsXP ||
                                     WinUtil.IsAtLeastWindowsVista)
-                                       ? NativeMethods.HDM_GETITEMW
-                                       : NativeMethods.HDM_GETITEMA);
+                                   ? NativeMethods.HDM_GETITEMW
+                                   : NativeMethods.HDM_GETITEMA);
                     int nSetMsg = ((WinUtil.IsWindows2000 || WinUtil.IsWindowsXP ||
                                     WinUtil.IsAtLeastWindowsVista)
-                                       ? NativeMethods.HDM_SETITEMW
-                                       : NativeMethods.HDM_SETITEMA);
+                                   ? NativeMethods.HDM_SETITEMW
+                                   : NativeMethods.HDM_SETITEMA);
                     IntPtr pColIndex = new IntPtr(i);
 
                     NativeMethods.HDITEM hdItem = new NativeMethods.HDITEM();
@@ -3050,7 +3064,7 @@ namespace DupTerminator
                     }
 
                     if ((i != iColumn) || (so == SortOrder.None))
-                        hdItem.fmt &= (~NativeMethods.HDF_SORTUP & ~NativeMethods.HDF_SORTDOWN);
+                    { hdItem.fmt &= (~NativeMethods.HDF_SORTUP & ~NativeMethods.HDF_SORTDOWN); }
                     else
                     {
                         if (so == SortOrder.Ascending)
@@ -3074,7 +3088,7 @@ namespace DupTerminator
             }
             catch (Exception)
             {
-                System.Diagnostics.Debug.Assert(false); 
+                System.Diagnostics.Debug.Assert(false);
                 return false;
             }
 
@@ -3084,7 +3098,7 @@ namespace DupTerminator
         private void UpdateColumnSortingIcons()
         {
             if (SetSortIcon(lvDuplicates, lvwGroupSorter.SortColumn,
-                lvwGroupSorter.Order)) return;
+                           lvwGroupSorter.Order)) { return; }
 
             if (lvwGroupSorter.SortColumn < 0)
             {
@@ -3094,7 +3108,7 @@ namespace DupTerminator
             string strAsc = "  \u2191"; // Must have same length
             string strDsc = "  \u2193"; // Must have same length
             if (WinUtil.IsWindows9x || WinUtil.IsWindows2000 || WinUtil.IsWindowsXP ||
-                NativeLib.IsUnix())
+                    NativeLib.IsUnix())
             {
                 strAsc = @"  ^";
                 strDsc = @"  v";
@@ -3116,15 +3130,15 @@ namespace DupTerminator
                 }
 
                 if ((ch.Index == lvwGroupSorter.SortColumn) &&
-                    (lvwGroupSorter.Order != SortOrder.None))
+                        (lvwGroupSorter.Order != SortOrder.None))
                 {
                     if (lvwGroupSorter.Order == SortOrder.Ascending)
-                        strNew = strCur + strAsc;
+                    { strNew = strCur + strAsc; }
                     else if (lvwGroupSorter.Order == SortOrder.Descending)
-                        strNew = strCur + strDsc;
+                    { strNew = strCur + strDsc; }
                 }
 
-                if (strNew != null) ch.Text = strNew;
+                if (strNew != null) { ch.Text = strNew; }
             }//*/
         }
         #endregion
@@ -3196,7 +3210,7 @@ namespace DupTerminator
             int itemIndex = 0;
             ListViewGroup group;
             progressBar1.Maximum = lvDuplicates.Groups.Count;
-            for(int i = 0; i<lvDuplicates.Groups.Count;i++)
+            for (int i = 0; i < lvDuplicates.Groups.Count; i++)
             {
                 group = new ListViewGroup(lvDuplicates.Groups[i].Name, lvDuplicates.Groups[i].Header);
                 foreach (ListViewItem item in lvDuplicates.Groups[i].Items)
@@ -3264,6 +3278,7 @@ namespace DupTerminator
             }
         }
 
+        //设置列表背景色条
         private void GroupColoring(ref ListView listView)
         {
             bool prevBlue = false;
@@ -3274,9 +3289,9 @@ namespace DupTerminator
                 {
                     //眍恹?鲡弪
                     if (prevBlue)
-                        prevBlue = false;
+                    { prevBlue = false; }
                     else
-                        prevBlue = true;
+                    { prevBlue = true; }
                     lastHash = listView.Items[i].SubItems["SHA1Checksum"].Text;
                 }
                 if (prevBlue)
@@ -3286,12 +3301,11 @@ namespace DupTerminator
                         listView.Items[i].BackColor = _settings.Fields.ColorRow1.ToColor();
                     }
                 }
-                else
-                    if ((listView.Items[i].BackColor != _settings.Fields.ColorRowError.ToColor()) && (listView.Items[i].BackColor != _settings.Fields.ColorRowNotExist.ToColor()))
-                    {
+                else if ((listView.Items[i].BackColor != _settings.Fields.ColorRowError.ToColor()) && (listView.Items[i].BackColor != _settings.Fields.ColorRowNotExist.ToColor()))
+                {
 
-                        listView.Items[i].BackColor = _settings.Fields.ColorRow2.ToColor();
-                    }
+                    listView.Items[i].BackColor = _settings.Fields.ColorRow2.ToColor();
+                }
             }
         }
 
@@ -3307,7 +3321,7 @@ namespace DupTerminator
                 {
                     e.Item.Font = fontStrikeout;
                     //镳钼屦赅 礤 恹溴脲睇 腓 怦?羿殡??沭箫镥
-                    if (!_settings.Fields.IsAllowDelAllFiles) //羼腓 疣琊屮屙?箐嚯屙桢 蝾 礤 镳钼屦屐 
+                    if (!_settings.Fields.IsAllowDelAllFiles)  //羼腓 疣琊屮屙?箐嚯屙桢 蝾 礤 镳钼屦屐
                     {
                         if (e.Item.Group != null)
                         {
@@ -3350,7 +3364,7 @@ namespace DupTerminator
             }//if (AllowListChkUpdate)
         }
         #endregion
-      
+
         #region Rename file
         /// <summary>
         /// 襄疱戾耱栩?羿殡 ?镥疱桁屙钼囗桢?
@@ -3364,13 +3378,13 @@ namespace DupTerminator
             dig = GetDigit(Path.GetFileNameWithoutExtension(targetPath), out digname);
 
             if (dig == 0)
-                targetPath = GetNewNameForFileAdd(targetPath, 2);
+            { targetPath = GetNewNameForFileAdd(targetPath, 2); }
             else
                 targetPath = GetNewNameForFileDig(Path.Combine(Directory.GetParent(targetPath).ToString() + "\\", digname),
-                                leadingZero,
-                                dig + 1,
-                                Path.GetExtension(targetPath),
-                                targetPath);
+                                                  leadingZero,
+                                                  dig + 1,
+                                                  Path.GetExtension(targetPath),
+                                                  targetPath);
             new FileInfo(sourcePath).MoveTo(targetPath);
             return targetPath;
         }
@@ -3388,7 +3402,7 @@ namespace DupTerminator
             bool ren = true;
             for (int u = sym + 1; u < len; u++)
                 if (!char.IsDigit(name[u]))
-                    ren = false;
+                { ren = false; }
 
             ulong result = 0;
             if (ren)
@@ -3432,7 +3446,7 @@ namespace DupTerminator
             string newname = String.Empty;
             StringBuilder builder = new StringBuilder(oldname);
             for (int j = 0; j < zero; j++)
-                builder.Append("0");
+            { builder.Append("0"); }
             builder.Append(i);
             builder.Append(ext);
             newname = builder.ToString();
@@ -3480,13 +3494,13 @@ namespace DupTerminator
                 dSizes = nSizes;
                 getSizeAndNameByte(ref dSizes, ref bytesName);
                 SetStatusDuplicate(lvDuplicates.CheckedItems.Count.ToString() +
-                    LanguageManager.GetString("DuplicateFilesTotalSize") +
-                    dSizes.ToString("F03") + bytesName);
+                                   LanguageManager.GetString("DuplicateFilesTotalSize") +
+                                   dSizes.ToString("F03") + bytesName);
             }
             else
             {
                 SetStatusDuplicate(lvDuplicates.CheckedItems.Count.ToString() +
-                    LanguageManager.GetString("DuplicateFilesTotalSize"));
+                                   LanguageManager.GetString("DuplicateFilesTotalSize"));
             }
         }
 
@@ -3502,13 +3516,13 @@ namespace DupTerminator
                 //sbytes = " Byte";
                 sbytes = LanguageManager.GetProperty(this, "rdbLBytes.Text");
             }
-            else if (size < (1024*1024))
+            else if (size < (1024 * 1024))
             {
                 size = size / 1024;
                 //sbytes = " Kb";
                 sbytes = " " + LanguageManager.GetProperty(this, "rdbLKilo.Text");
             }
-            else if (size < (1024*1024*1024))
+            else if (size < (1024 * 1024 * 1024))
             {
                 size = size / (1024 * 1024);
                 //sbytes = " Mb";
@@ -3524,7 +3538,7 @@ namespace DupTerminator
 
         private void buttonSelectBy_Click(object sender, EventArgs e)
         {
-            cmsSelectBy.Show(buttonSelectBy, 5,5);
+            cmsSelectBy.Show(buttonSelectBy, 5, 5);
         }
 
         private void tmsi_Select_ByNewestFilesInEachGroup_Click(object sender, EventArgs e)
@@ -3542,7 +3556,7 @@ namespace DupTerminator
                     if (lvDuplicates.SelectedItems[j].Group.Name != prevGroup)
                     {
                         smallDate = Convert.ToDateTime(
-                                lvDuplicates.SelectedItems[j].Group.Items[0].SubItems["LastAccessed"].Text);
+                                        lvDuplicates.SelectedItems[j].Group.Items[0].SubItems["LastModified"].Text);
                         lvDuplicates.SelectedItems[j].Group.Items[0].Checked = false;
                         lvDuplicates.SelectedItems[j].Group.Items[0].Font = fontRegular;
                         int index = 0;
@@ -3552,7 +3566,7 @@ namespace DupTerminator
                             lvDuplicates.SelectedItems[j].Group.Items[i].Font = fontRegular;
                             currentDate =
                                 Convert.ToDateTime(
-                                    lvDuplicates.SelectedItems[j].Group.Items[i].SubItems["LastAccessed"].Text);
+                                    lvDuplicates.SelectedItems[j].Group.Items[i].SubItems["LastModified"].Text);
                             if (DateTime.Compare(currentDate, smallDate) < 0)
                             {
                                 smallDate = currentDate;
@@ -3578,7 +3592,7 @@ namespace DupTerminator
                 progressBar1.Maximum = lvDuplicates.Groups.Count;
                 foreach (ListViewGroup group in lvDuplicates.Groups)
                 {
-                    smallDate = Convert.ToDateTime(group.Items[0].SubItems["LastAccessed"].Text);
+                    smallDate = Convert.ToDateTime(group.Items[0].SubItems["LastModified"].Text);
                     group.Items[0].Checked = false;
                     group.Items[0].Font = fontRegular;
                     int index = 0;
@@ -3586,7 +3600,7 @@ namespace DupTerminator
                     {
                         group.Items[i].Checked = false;
                         group.Items[i].Font = fontRegular;
-                        currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastAccessed"].Text);
+                        currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastModified"].Text);
                         if (DateTime.Compare(currentDate, smallDate) < 0)
                         {
                             smallDate = currentDate;
@@ -3609,13 +3623,15 @@ namespace DupTerminator
             showDuplicateInfoSelected();
         }
 
+        //选择每组中访问时间最老的项
         private void tmsi_Select_ByOldestFileInEachGroup_Click(object sender, EventArgs e)
         {
             DateTime bigDate, currentDate;
             AllowListChkUpdate = false;
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
-            if (lvDuplicates.SelectedIndices.Count > 1)  //恹溴脲眄
+
+            if (lvDuplicates.SelectedIndices.Count > 1)   //当前是否有选中条目
             {
                 string prevGroup = String.Empty;
                 progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -3623,14 +3639,14 @@ namespace DupTerminator
                 {
                     if (lvDuplicates.SelectedItems[j].Group.Name != prevGroup)
                     {
-                        bigDate = Convert.ToDateTime(lvDuplicates.SelectedItems[j].Group.Items[0].SubItems["LastAccessed"].Text);
+                        bigDate = Convert.ToDateTime(lvDuplicates.SelectedItems[j].Group.Items[0].SubItems["LastModified"].Text);
                         lvDuplicates.SelectedItems[j].Group.Items[0].Checked = false;
                         lvDuplicates.SelectedItems[j].Group.Items[0].Font = fontRegular;
                         int index = 0;
                         for (int i = 1; i < lvDuplicates.SelectedItems[j].Group.Items.Count; i++)
                         {
                             lvDuplicates.SelectedItems[j].Group.Items[i].Checked = false;
-                            currentDate = Convert.ToDateTime(lvDuplicates.SelectedItems[j].Group.Items[i].SubItems["LastAccessed"].Text);
+                            currentDate = Convert.ToDateTime(lvDuplicates.SelectedItems[j].Group.Items[i].SubItems["LastModified"].Text);
                             if (DateTime.Compare(currentDate, bigDate) > 0)
                             {
                                 bigDate = currentDate;
@@ -3656,7 +3672,7 @@ namespace DupTerminator
                 progressBar1.Maximum = lvDuplicates.Groups.Count;
                 foreach (ListViewGroup group in lvDuplicates.Groups)
                 {
-                    bigDate = Convert.ToDateTime(group.Items[0].SubItems["LastAccessed"].Text);
+                    bigDate = Convert.ToDateTime(group.Items[0].SubItems["LastModified"].Text);
                     group.Items[0].Checked = false;
                     group.Items[0].Font = fontRegular;
                     int index = 0;
@@ -3664,7 +3680,7 @@ namespace DupTerminator
                     {
                         group.Items[i].Checked = false;
                         group.Items[i].Font = fontRegular;
-                        currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastAccessed"].Text);
+                        currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastModified"].Text);
                         if (DateTime.Compare(currentDate, bigDate) > 0)
                         {
                             bigDate = currentDate;
@@ -3730,14 +3746,14 @@ namespace DupTerminator
                             DateTime comparDate, currentDate;
                             AllowListChkUpdate = false;
 
-                            comparDate = Convert.ToDateTime(group.Items[0].SubItems["LastAccessed"].Text);
+                            comparDate = Convert.ToDateTime(group.Items[0].SubItems["LastModified"].Text);
                             group.Items[0].Checked = true;
                             int index = 0;
                             for (int i = 1; i < group.Items.Count; i++)
                             {
                                 group.Items[i].Checked = true;
                                 group.Items[i].Font = fontStrikeout;
-                                currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastAccessed"].Text);
+                                currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastModified"].Text);
                                 if (DateTime.Compare(currentDate, comparDate) > 0)
                                 {
                                     comparDate = currentDate;
@@ -3799,14 +3815,14 @@ namespace DupTerminator
                             DateTime comparDate, currentDate;
                             AllowListChkUpdate = false;
 
-                            comparDate = Convert.ToDateTime(group.Items[0].SubItems["LastAccessed"].Text);
+                            comparDate = Convert.ToDateTime(group.Items[0].SubItems["LastModified"].Text);
                             group.Items[0].Checked = true;
                             int index = 0;
                             for (int i = 1; i < group.Items.Count; i++)
                             {
                                 group.Items[i].Checked = true;
                                 group.Items[i].Font = fontStrikeout;
-                                currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastAccessed"].Text);
+                                currentDate = Convert.ToDateTime(group.Items[i].SubItems["LastModified"].Text);
                                 if (DateTime.Compare(currentDate, comparDate) < 0)
                                 {
                                     comparDate = currentDate;
@@ -3847,7 +3863,7 @@ namespace DupTerminator
             {
                 Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
 
-                if (lvDuplicates.SelectedIndices.Count > 1) //?恹狃囗睇?
+                if (lvDuplicates.SelectedIndices.Count > 1)  //?恹狃囗睇?
                 {
                     AllowListChkUpdate = false;
                     progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -3862,7 +3878,7 @@ namespace DupTerminator
                     }
                     progressBar1.Value = 0;
                     if (!_settings.Fields.IsAllowDelAllFiles)
-                        AllCheckedColoring(ref lvDuplicates);
+                    { AllCheckedColoring(ref lvDuplicates); }
                     GroupColoring(ref lvDuplicates);
                     AllowListChkUpdate = true;
                     showDuplicateInfoSelected();
@@ -3882,7 +3898,7 @@ namespace DupTerminator
                     }
                     progressBar1.Value = 0;
                     if (!_settings.Fields.IsAllowDelAllFiles)
-                        AllCheckedColoring(ref lvDuplicates);
+                    { AllCheckedColoring(ref lvDuplicates); }
                     GroupColoring(ref lvDuplicates);
                     AllowListChkUpdate = true;
                     showDuplicateInfoSelected();
@@ -3904,7 +3920,7 @@ namespace DupTerminator
             AllowListChkUpdate = false;
             Font fontRegular = new Font(lvDuplicates.Font, FontStyle.Regular);
             Font fontStrikeout = new Font(lvDuplicates.Font, FontStyle.Strikeout);
-            if (lvDuplicates.SelectedIndices.Count > 1) //?恹狃囗睇?
+            if (lvDuplicates.SelectedIndices.Count > 1)  //?恹狃囗睇?
             {
                 string prevGroup = String.Empty;
                 progressBar1.Maximum = lvDuplicates.SelectedItems.Count;
@@ -4115,217 +4131,217 @@ namespace DupTerminator
         }
 
 #if ExtLang
-        private readonly string Filename = Path.Combine(Environment.CurrentDirectory, "language.xml");
-        private void SaveLanguages()
+    private readonly string Filename = Path.Combine(Environment.CurrentDirectory, "language.xml");
+    private void SaveLanguages()
+    {
+        //耦躔囗屐 溧眄 磬耱痤尻 ?羿殡 蹯?
+        XmlWriterSettings settingsXml = new XmlWriterSettings();
+        // 怅膻鬣屐 铗耱箫 潆 屐屙蝾?XML 漕牦戾眚?
+        // (镱玮铍弪 磬汶漤?桤钺疣玷螯 桢疣瘐棹 XML 漕牦戾眚?
+        settingsXml.Indent = true;
+        //settingsXml.IndentChars = "    "; // 玎溧屐 铗耱箫, 玟羼??戾? 4 镳钺咫?
+        // 玎溧屐 镥疱躅?磬 眍怏?耱痤牦
+        settingsXml.NewLineChars = "\n";
+
+        using(XmlWriter output = XmlWriter.Create(Filename, settingsXml))
         {
-            //耦躔囗屐 溧眄 磬耱痤尻 ?羿殡 蹯?
-            XmlWriterSettings settingsXml = new XmlWriterSettings();
-            // 怅膻鬣屐 铗耱箫 潆 屐屙蝾?XML 漕牦戾眚?
-            // (镱玮铍弪 磬汶漤?桤钺疣玷螯 桢疣瘐棹 XML 漕牦戾眚?
-            settingsXml.Indent = true;
-            //settingsXml.IndentChars = "    "; // 玎溧屐 铗耱箫, 玟羼??戾? 4 镳钺咫?
-            // 玎溧屐 镥疱躅?磬 眍怏?耱痤牦
-            settingsXml.NewLineChars = "\n";
+            // 杨玟嚯?铗牮帼轳 蝈?
+            output.WriteStartElement("language");
+            output.WriteAttributeString("culture", "en");
+            // 杨玟噱?屐屙?
+            output.WriteElementString("author", "D.Borisov");
+            output.WriteElementString("version", "1.0");
 
-            using (XmlWriter output = XmlWriter.Create(Filename, settingsXml))
-            {
-                // 杨玟嚯?铗牮帼轳 蝈?
-                output.WriteStartElement("language");
-                output.WriteAttributeString("culture", "en");
-                // 杨玟噱?屐屙?
-                output.WriteElementString("author", "D.Borisov");
-                output.WriteElementString("version", "1.0");
+            output.WriteStartElement("messages");
 
-                output.WriteStartElement("messages");
+            /*output.WriteStartElement("message");
+            output.WriteAttributeString("name", "S_AppTitle");
+            output.WriteAttributeString("value", "DupTerminator");
+            output.WriteEndElement();*/
 
-                /*output.WriteStartElement("message");
-                output.WriteAttributeString("name", "S_AppTitle");
-                output.WriteAttributeString("value", "DupTerminator");
-                output.WriteEndElement();*/
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "S_NotSetSearchDir");
+            output.WriteAttributeString("value", "Not set search directory!");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "S_Error");
+            output.WriteAttributeString("value", "Error");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "classTypes_Picture");
+            output.WriteAttributeString("value", "Picture");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "classTypes_Audio");
+            output.WriteAttributeString("value", "Audio");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "classTypes_Video");
+            output.WriteAttributeString("value", "Video");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "classTypes_Documents");
+            output.WriteAttributeString("value", "Documents");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "classTypes_Saved sites");
+            output.WriteAttributeString("value", "Saved sites");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "Crash_UnknownError");
+            output.WriteAttributeString("value", "An unknown error has occurred. WallpaperChanger cannot continue.");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "Crash_ErrorReportSent");
+            output.WriteAttributeString("value", "Error report sent. Thank you for helping to improve ");
+            output.WriteEndElement();
+            output.WriteStartElement("message");
+            output.WriteAttributeString("name", "Crash_ SendingReportFailed");
+            output.WriteAttributeString("value", " Sending report failed.");
+            output.WriteEndElement();
 
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "S_NotSetSearchDir");
-                output.WriteAttributeString("value", "Not set search directory!");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "S_Error");
-                output.WriteAttributeString("value", "Error");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "classTypes_Picture");
-                output.WriteAttributeString("value", "Picture");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "classTypes_Audio");
-                output.WriteAttributeString("value", "Audio");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "classTypes_Video");
-                output.WriteAttributeString("value", "Video");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "classTypes_Documents");
-                output.WriteAttributeString("value", "Documents");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "classTypes_Saved sites");
-                output.WriteAttributeString("value", "Saved sites");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "Crash_UnknownError");
-                output.WriteAttributeString("value", "An unknown error has occurred. WallpaperChanger cannot continue.");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "Crash_ErrorReportSent");
-                output.WriteAttributeString("value", "Error report sent. Thank you for helping to improve ");
-                output.WriteEndElement();
-                output.WriteStartElement("message");
-                output.WriteAttributeString("name", "Crash_ SendingReportFailed");
-                output.WriteAttributeString("value", " Sending report failed.");
-                output.WriteEndElement();
+            output.WriteEndElement(); //messages
 
-                output.WriteEndElement(); //messages
+            output.WriteStartElement("forms");
 
-                output.WriteStartElement("forms");
+            SaveLanguage(this, output);
 
-                SaveLanguage(this, output);
+            FormAbout ab = new FormAbout();
+            SaveLanguage(ab, output);
+            ab.Dispose();
 
-                FormAbout ab = new FormAbout();
-                SaveLanguage(ab, output);
-                ab.Dispose();
+            FormFileFilterSelect fffs = new FormFileFilterSelect();
+            SaveLanguage(fffs, output);
+            fffs.Dispose();
 
-                FormFileFilterSelect fffs = new FormFileFilterSelect();
-                SaveLanguage(fffs, output);
-                fffs.Dispose();
+            FormFileNameSelect ffns = new FormFileNameSelect();
+            SaveLanguage(ffns, output);
+            ffns.Dispose();
 
-                FormFileNameSelect ffns = new FormFileNameSelect();
-                SaveLanguage(ffns, output);
-                ffns.Dispose();
+            FormFolderSelect ffs = new FormFolderSelect();
+            SaveLanguage(ffs, output);
+            ffs.Dispose();
 
-                FormFolderSelect ffs = new FormFolderSelect();
-                SaveLanguage(ffs, output);
-                ffs.Dispose();
+            FormJobLoad fjl = new FormJobLoad();
+            SaveLanguage(fjl, output);
+            fjl.Dispose();
 
-                FormJobLoad fjl = new FormJobLoad();
-                SaveLanguage(fjl, output);
-                fjl.Dispose();
+            FormSetting fs = new FormSetting();
+            SaveLanguage(fs, output);
+            fs.Dispose();
 
-                FormSetting fs = new FormSetting();
-                SaveLanguage(fs, output);
-                fs.Dispose();
+            FormUpdate fu = new FormUpdate();
+            SaveLanguage(fu, output);
+            fu.Dispose();
 
-                FormUpdate fu = new FormUpdate();
-                SaveLanguage(fu, output);
-                fu.Dispose();
+            CrashReport cr = new CrashReport(new Exception());
+            SaveLanguage(cr, output);
+            cr.Dispose();
 
-                CrashReport cr = new CrashReport(new Exception());
-                SaveLanguage(cr, output);
-                cr.Dispose();
+            FormProgress fp = new FormProgress();
+            SaveLanguage(fp, output);
+            fp.Dispose();
 
-                FormProgress fp = new FormProgress();
-                SaveLanguage(fp, output);
-                fp.Dispose();
-
-                output.WriteEndElement();//Forms
-                output.WriteEndElement();//language
-                // 厌疣覃忄屐 狍趑屦桤桊钼囗睇?溧眄
-                output.Flush();
-                // 青牮噱?羿桦, ?觐蝾瘥?疋玎?output
-                output.Close();
-            }
+            output.WriteEndElement();//Forms
+            output.WriteEndElement();//language
+            // 厌疣覃忄屐 狍趑屦桤桊钼囗睇?溧眄
+            output.Flush();
+            // 青牮噱?羿桦, ?觐蝾瘥?疋玎?output
+            output.Close();
         }
+    }
 
-        private void SaveLanguage(Form form, XmlWriter writer)
+    private void SaveLanguage(Form form, XmlWriter writer)
+    {
+        writer.WriteStartElement("form");
+        writer.WriteAttributeString("type", form.GetType().FullName);
+        writer.WriteStartElement("property");
+        writer.WriteAttributeString("name", "Text");
+        writer.WriteAttributeString("value", form.Text);
+        writer.WriteEndElement();
+
+        WriteContols(writer, form.Controls);
+        writer.WriteEndElement();//Form
+    }
+
+    private void WriteContols(XmlWriter writer, Control.ControlCollection controls)
+    {
+        foreach(Control control in controls)
         {
-                writer.WriteStartElement("form");
-                writer.WriteAttributeString("type", form.GetType().FullName);
-                writer.WriteStartElement("property");
-                writer.WriteAttributeString("name", "Text");
-                writer.WriteAttributeString("value", form.Text);
-                writer.WriteEndElement();
-
-                WriteContols(writer, form.Controls);
-                writer.WriteEndElement();//Form
-        }
-
-        private void WriteContols(XmlWriter writer, Control.ControlCollection controls)
-        {
-            foreach (Control control in controls)
-            {
-                if (!String.IsNullOrEmpty(control.Text) 
+            if(!String.IsNullOrEmpty(control.Text)
                     && !String.IsNullOrEmpty(control.Name)
                     && control.Text != "0"
                     && control.Name != "statusStrip1"
                     && control.Name != "menuMain"
                     && control.Name != "labelListRowFontValue"
                     && control.Name != "labelProgramFontValue")
+            {
+                writer.WriteStartElement("property");
+                writer.WriteAttributeString("name", control.Name + ".Text");
+                writer.WriteAttributeString("value", control.Text);
+                writer.WriteEndElement();
+            }
+
+            if(control is MenuStrip)
+                //if (control.GetType().IsSubclassOf(typeof(ToolStrip)))
+            {
+                foreach(ToolStripMenuItem item in ((MenuStrip)control).Items)
+                    //foreach (ToolStripMenuItem item in control.Items)
                 {
                     writer.WriteStartElement("property");
-                    writer.WriteAttributeString("name", control.Name + ".Text");
-                    writer.WriteAttributeString("value", control.Text);
+                    writer.WriteAttributeString("name", item.Name + ".Text");
+                    writer.WriteAttributeString("value", item.Text);
                     writer.WriteEndElement();
-                }
-
-                if (control is MenuStrip)
-                //if (control.GetType().IsSubclassOf(typeof(ToolStrip)))
-                {
-                    foreach (ToolStripMenuItem item in ((MenuStrip)control).Items)
-                    //foreach (ToolStripMenuItem item in control.Items)
+                    foreach(ToolStripDropDownItem subitem in item.DropDownItems)
                     {
                         writer.WriteStartElement("property");
-                        writer.WriteAttributeString("name", item.Name + ".Text");
-                        writer.WriteAttributeString("value", item.Text);
+                        writer.WriteAttributeString("name", subitem.Name + ".Text");
+                        writer.WriteAttributeString("value", subitem.Text);
                         writer.WriteEndElement();
-                        foreach (ToolStripDropDownItem subitem in item.DropDownItems)
+                        //bool f = subitem.HasDropDownItems;
+                        foreach(ToolStripDropDownItem subitem2 in subitem.DropDownItems)
+                        {
+                            writer.WriteStartElement("property");
+                            writer.WriteAttributeString("name", subitem2.Name + ".Text");
+                            writer.WriteAttributeString("value", subitem2.Text);
+                            writer.WriteEndElement();
+                        }
+                    }
+
+                    //.DropDownItems
+                }
+            }
+
+            if(control.ContextMenuStrip != null)
+            {
+                for(int i = 0; i < control.ContextMenuStrip.Items.Count; i++)
+                {
+                    if(!(control.ContextMenuStrip.Items[i] is ToolStripSeparator))
+                    {
+                        writer.WriteStartElement("property");
+                        writer.WriteAttributeString("name", control.ContextMenuStrip.Items[i].Name + ".Text");
+                        writer.WriteAttributeString("value", control.ContextMenuStrip.Items[i].Text);
+                        writer.WriteEndElement();
+
+                        //control.ContextMenuStrip.Items[i].
+                        //tmsi_Select_ByLastAcess.DropDownItems
+                        foreach(ToolStripDropDownItem subitem in ((ToolStripMenuItem)control.ContextMenuStrip.Items[i]).DropDownItems)
                         {
                             writer.WriteStartElement("property");
                             writer.WriteAttributeString("name", subitem.Name + ".Text");
                             writer.WriteAttributeString("value", subitem.Text);
                             writer.WriteEndElement();
-                            //bool f = subitem.HasDropDownItems;
-                            foreach (ToolStripDropDownItem subitem2 in subitem.DropDownItems)
-                            {
-                                writer.WriteStartElement("property");
-                                writer.WriteAttributeString("name", subitem2.Name + ".Text");
-                                writer.WriteAttributeString("value", subitem2.Text);
-                                writer.WriteEndElement();
-                            }
-                        }
-                        
-                        //.DropDownItems
-                    }
-                }
-
-                if (control.ContextMenuStrip != null)
-                {
-                    for (int i = 0; i < control.ContextMenuStrip.Items.Count; i++)
-                    {
-                        if (!(control.ContextMenuStrip.Items[i] is ToolStripSeparator))
-                        {
-                            writer.WriteStartElement("property");
-                            writer.WriteAttributeString("name", control.ContextMenuStrip.Items[i].Name + ".Text");
-                            writer.WriteAttributeString("value", control.ContextMenuStrip.Items[i].Text);
-                            writer.WriteEndElement();
-
-                            //control.ContextMenuStrip.Items[i].
-                            //tmsi_Select_ByLastAcess.DropDownItems
-                            foreach (ToolStripDropDownItem subitem in ((ToolStripMenuItem)control.ContextMenuStrip.Items[i]).DropDownItems)
-                            {
-                                writer.WriteStartElement("property");
-                                writer.WriteAttributeString("name", subitem.Name + ".Text");
-                                writer.WriteAttributeString("value", subitem.Text);
-                                writer.WriteEndElement();
-                            }
                         }
                     }
-                }
-
-                if (control.HasChildren)
-                {
-                    WriteContols(writer, control.Controls);
                 }
             }
+
+            if(control.HasChildren)
+            {
+                WriteContols(writer, control.Controls);
+            }
         }
+    }
 #endif
 
         private void InitLanguage()
@@ -4334,15 +4350,21 @@ namespace DupTerminator
             if (String.IsNullOrEmpty(savedLang))
             {
                 CultureInfo cultureInfo = CultureInfo.CurrentUICulture;
-                if (!String.IsNullOrEmpty(cultureInfo.Parent.Name))
-                    savedLang = cultureInfo.Parent.Name;
+                if(cultureInfo.Name.Equals("zh-CN", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    savedLang = "zh-CN";
+                }
+                else if (!String.IsNullOrEmpty(cultureInfo.Parent.Name))
+                { 
+                    savedLang = cultureInfo.Parent.Name; 
+                }
             }
             bool langFound = false;
 
             foreach (string lang in LanguageManager.Languages)
             {
                 if (savedLang == lang)
-                    langFound = true;
+                { langFound = true; }
 
                 var menuItem = new ToolStripMenuItem { Text = LanguageManager.GetNativeName(lang) };
                 menuItem.Click += OnLanguageMenuItemCliick;
@@ -4362,7 +4384,7 @@ namespace DupTerminator
         private void SetCurrentLang(string lang)
         {
             foreach (ToolStripMenuItem item in toolStripMenuItem_Language.DropDownItems)
-                item.Checked = item.Tag.ToString() == lang;
+            { item.Checked = item.Tag.ToString() == lang; }
 
             _settings.Fields.Language = lang;
 
@@ -4374,10 +4396,11 @@ namespace DupTerminator
             UpdatePanelWidth(panel4);
 
             //buttonDelete.Invalidate();
-            SizeF size = TextRenderer.MeasureText(buttonDelete.Text, buttonDelete.Font);
-            buttonDelete.Width = (int)size.Width + buttonDelete.Image.Width + 12;
+            SizeF size;
+            //size= TextRenderer.MeasureText(buttonDelete.Text, buttonDelete.Font);
+            //buttonDelete.Width = (int)size.Width + buttonDelete.Image.Width + 12;
+            //buttonDeleteSelectedFiles.Left = buttonDelete.Right + 20;
 
-            buttonDeleteSelectedFiles.Left = buttonDelete.Right + 20;
             size = TextRenderer.MeasureText(buttonDeleteSelectedFiles.Text, buttonDeleteSelectedFiles.Font);
             buttonDeleteSelectedFiles.Width = (int)size.Width + buttonDeleteSelectedFiles.Image.Width + 12;
 
@@ -4389,13 +4412,17 @@ namespace DupTerminator
             size = TextRenderer.MeasureText(buttonSelectBy.Text, buttonSelectBy.Font);
             buttonSelectBy.Width = (int)size.Width + buttonSelectBy.Image.Width + 12;
 
+            buttonClear.Left = buttonSelectBy.Right + 20;
+            size = TextRenderer.MeasureText(buttonClear.Text, buttonClear.Font);
+            buttonClear.Width = (int)size.Width + buttonClear.Image.Width + 12;
+
             if (lvDuplicates.Columns.Count > 0)
             {
                 lvDuplicates.Columns[0].Text = LanguageManager.GetString("ListViewColumn_FileName");
                 lvDuplicates.Columns[1].Text = LanguageManager.GetString("ListViewColumn_Path");
                 lvDuplicates.Columns[2].Text = LanguageManager.GetString("ListViewColumn_Size");
                 lvDuplicates.Columns[3].Text = LanguageManager.GetString("ListViewColumn_FileType");
-                lvDuplicates.Columns[4].Text = LanguageManager.GetString("ListViewColumn_LastAccessed");
+                lvDuplicates.Columns[4].Text = LanguageManager.GetString("ListViewColumn_LastModified");
                 lvDuplicates.Columns[5].Text = LanguageManager.GetString("ListViewColumn_SHA1Checksum");
             }
 
@@ -4412,15 +4439,15 @@ namespace DupTerminator
 
         private void LocalizeLVDirectorySearch()
         {
-            foreach(ListViewItem lv in lvDirectorySearch.Items)
+            foreach (ListViewItem lv in lvDirectorySearch.Items)
             {
                 //object o = lv.SubItems["SubDir"].Tag; //["SubDir"].Tag;
                 if (lv.SubItems["SubDir"].Tag != null)
                 {
                     if (Convert.ToInt32(lv.SubItems["SubDir"].Tag) == 1)
-                        lv.SubItems["SubDir"].Text = LanguageManager.GetString("Yes");
+                    { lv.SubItems["SubDir"].Text = LanguageManager.GetString("Yes"); }
                     else if (Convert.ToInt32(lv.SubItems["SubDir"].Tag) == 0)
-                        lv.SubItems["SubDir"].Text = LanguageManager.GetString("No");
+                    { lv.SubItems["SubDir"].Text = LanguageManager.GetString("No"); }
                 }
                 //else
                 //    lv.SubItems["SubDir"].Text = LanguageManager.GetString("Yes");
@@ -4446,7 +4473,7 @@ namespace DupTerminator
             ffns.Icon = Properties.Resources.TerminatorIco32;
             //ffns._settings = _settings;
             if (lvDirectorySearch.Items.Count == 1)
-                ffns.SelectedName = (new DirectoryInfo(lvDirectorySearch.Items[0].Text).Name);
+            { ffns.SelectedName = (new DirectoryInfo(lvDirectorySearch.Items[0].Text).Name); }
 
             if (ffns.ShowDialog() == DialogResult.OK)
             {
@@ -4459,10 +4486,10 @@ namespace DupTerminator
                 Text = string.Format("{0} - {1}", AssemblyHelper.AssemblyTitle, directory);
 
                 if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
+                { Directory.CreateDirectory(directory); }
 
                 if (lvDuplicates.Items.Count > 0)
-                    Save_ListDuplicate(directory);
+                { Save_ListDuplicate(directory); }
                 else if (File.Exists(Const.fileNameListDuplicate))
                 {
                     File.Delete(Const.fileNameListDuplicate);
@@ -4481,7 +4508,7 @@ namespace DupTerminator
             fjl.Font = _settings.Fields.ProgramFont.ToFont();
             fjl.Icon = Properties.Resources.TerminatorIco32;
             if (IsDirectory(_settings.Fields.LastJob))
-                fjl.SelectedJob = _settings.Fields.LastJob;
+            { fjl.SelectedJob = _settings.Fields.LastJob; }
 
             //fjl._settings = _settings;
 
@@ -4515,20 +4542,20 @@ namespace DupTerminator
             if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSearchFolder"])
             {
                 //if (checkedListDirectorySearch.SelectedIndices.Count > 0)
-                    //ffs.SelectedPath = Convert.ToString(checkedListDirectorySearch.SelectedItem);
+                //ffs.SelectedPath = Convert.ToString(checkedListDirectorySearch.SelectedItem);
                 if (lvDirectorySearch.FocusedItem != null)
                 {
                     ffs.SelectedPath = lvDirectorySearch.FocusedItem.Text;
                     if (lvDirectorySearch.FocusedItem.SubItems[1].Text == LanguageManager.GetString("Yes"))
-                        ffs.IsSubDir = true;
+                    { ffs.IsSubDir = true; }
                     else
-                        ffs.IsSubDir = false;
+                    { ffs.IsSubDir = false; }
                 }
             }
             else if (tabControlFolder.SelectedTab == tabControlFolder.TabPages["tabPageSkipFolder"])
             {
                 if (checkedListBoxSkipFolder.SelectedIndices.Count > 0)
-                    ffs.SelectedPath = checkedListBoxSkipFolder.SelectedItem.ToString();
+                { ffs.SelectedPath = checkedListBoxSkipFolder.SelectedItem.ToString(); }
             }
 
             if (ffs.ShowDialog() == DialogResult.OK)
@@ -4562,7 +4589,7 @@ namespace DupTerminator
                         checkedListBoxSkipFolder.SelectedIndices.Add(checkedListBoxSkipFolder.Items.Count - 1);
                     }
                     else
-                        MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList"));
+                    { MessageBox.Show(LanguageManager.GetString("Directory") + ffs.SelectedPath + Environment.NewLine + LanguageManager.GetString("AlreadyInList")); }
                 }
             }
 
@@ -4579,9 +4606,9 @@ namespace DupTerminator
         private void lvDirectorySearch_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
+            { e.Effect = DragDropEffects.Copy; }
             else
-                e.Effect = DragDropEffects.None;
+            { e.Effect = DragDropEffects.None; }
         }
 
         private void lvDirectorySearch_DragDrop(object sender, DragEventArgs e)
@@ -4599,9 +4626,9 @@ namespace DupTerminator
                             string path;
                             int lastIndex = pathCycle.LastIndexOf('\\');
                             if (lastIndex != pathCycle.Length - 1)
-                                path = pathCycle + '\\';
+                            { path = pathCycle + '\\'; }
                             else
-                                path = pathCycle;
+                            { path = pathCycle; }
 
                             if (!ListViewContainPath(lvDirectorySearch, path))
                             {
@@ -4624,7 +4651,7 @@ namespace DupTerminator
                                 lvsi = null;
                             }
                             else
-                                MessageBox.Show(LanguageManager.GetString("Directory") + path + Environment.NewLine + LanguageManager.GetString("AlreadyInList"));
+                            { MessageBox.Show(LanguageManager.GetString("Directory") + path + Environment.NewLine + LanguageManager.GetString("AlreadyInList")); }
                         }
                     }
                 }
@@ -4638,9 +4665,9 @@ namespace DupTerminator
         private void checkedListBoxSkipFolder_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
+            { e.Effect = DragDropEffects.Copy; }
             else
-                e.Effect = DragDropEffects.None;
+            { e.Effect = DragDropEffects.None; }
         }
 
         private void checkedListBoxSkipFolder_DragDrop(object sender, DragEventArgs e)
@@ -4660,7 +4687,7 @@ namespace DupTerminator
                                 checkedListBoxSkipFolder.Items.Add(path, true);
                             }
                             else
-                                MessageBox.Show(LanguageManager.GetString("Directory") + path + Environment.NewLine + LanguageManager.GetString("AlreadyInList"));
+                            { MessageBox.Show(LanguageManager.GetString("Directory") + path + Environment.NewLine + LanguageManager.GetString("AlreadyInList")); }
                         }
                     }
                 }
@@ -4682,7 +4709,11 @@ namespace DupTerminator
             }
         }
 
-
+        private void ButtonClear_Click(object sender, EventArgs e)
+        {
+            lvDuplicates.Items.Clear();
+            lvDuplicates.Groups.Clear();
+            fFunctions.Clear_Results();
+        }
     }
-    
 }

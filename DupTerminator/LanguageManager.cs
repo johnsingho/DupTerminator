@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 namespace DupTerminator
 {
+    //for multiple language support
     class LanguageManager
     {
         private static XmlLocalizer localizer;

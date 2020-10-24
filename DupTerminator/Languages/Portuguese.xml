@@ -52,7 +52,7 @@
     <message name="ListViewColumn_Path" value="Vereda" />
     <message name="ListViewColumn_Size" value="Tamanho" />
     <message name="ListViewColumn_FileType" value="Tipo de arquivo" />
-    <message name="ListViewColumn_LastAccessed" value="Última Acessado" />
+    <message name="ListViewColumn_LastModified" value="Última Acessado" />
     <message name="ListViewColumn_SHA1Checksum" value="SHA1 Checksum" />
     <message name="ListViewColumn_SubDirectory" value="Subdiretório" />
     <message name="CheckAllSelected" value="Se o cheque lá é grupos nos quais todos os arquivos se alocam" />
@@ -114,7 +114,6 @@
       <property name="tmsi_Select_ByFileNameLength.Text" value="Selecione por Comprimento Nome do arquivo" />
       <property name="tmsi_Select_ByShorterFileNameInEachGroup.Text" value="Nome de ficheiro mais curto em cada grupo" />
       <property name="tmsi_Select_ByLongerFileNameInEachGroup.Text" value="Mais nome do arquivo em cada grupo" />
-      <property name="buttonDelete.Text" value="Apagar" />
       <property name="tmsi_Dubli_SelectAll.Text" value="Selecionar Tudo" />
       <property name="tmsi_Dubli_DeSelectAll.Text" value="Desmarcar Todos" />
       <property name="tmsi_Dubli_SelectAllButOne.Text" value="Selecione Todos, Exceto Um" />

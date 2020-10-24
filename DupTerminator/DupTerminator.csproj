@@ -270,6 +270,9 @@
     <Content Include="Icon\tile_vertical.png" />
     <Content Include="Icon\Updates.png" />
     <Content Include="Icon\UpdatesIco.ico" />
+    <Content Include="Languages\zh-CN.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\English.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

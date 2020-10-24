@@ -74,10 +74,12 @@ namespace DupTerminator
                                              hashVal        TEXT,
                             PRIMARY KEY(Path,LastWriteTime,Length))";
 
-            SQLiteCommand command = new SQLiteCommand(sql, _sqliteConnection);
             try
             {
-                command.ExecuteNonQuery();
+                using (var command = new SQLiteCommand(sql, _sqliteConnection))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
@@ -154,8 +156,9 @@ namespace DupTerminator
             _sqliteConnection.Close();
         }
 
-        public void Update(string path, DateTime lastWriteTime, long length, string sHash)
+        public bool Update(string path, DateTime lastWriteTime, long length, string sHash)
         {
+            bool bok = false;
             if (path == null || lastWriteTime == null)
                 new CrashReport("path == null || lastWriteTim == null").ShowDialog();
 
@@ -163,16 +166,21 @@ namespace DupTerminator
                 _sqliteConnection.Open();
 
             String SQLInsert = "UPDATE ExtendedFileInfo SET hashVal = ? WHERE path = ? AND lastWriteTime = ? AND length = ?";
-            SQLiteCommand command = _sqliteConnection.CreateCommand();
-            command.CommandText = SQLInsert;
-            command.Parameters.AddWithValue("path", path);
-            command.Parameters.AddWithValue("lastWriteTime", lastWriteTime);
-            command.Parameters.AddWithValue("length", length);
-            command.Parameters.AddWithValue("hashVal", sHash);
+
 
             try
             {
-                command.ExecuteNonQuery();
+                using (var command = _sqliteConnection.CreateCommand())
+                {
+                    command.CommandText = SQLInsert;
+                    command.Parameters.AddWithValue("path", path);
+                    command.Parameters.AddWithValue("lastWriteTime", lastWriteTime);
+                    command.Parameters.AddWithValue("length", length);
+                    command.Parameters.AddWithValue("hashVal", sHash);
+
+                    int nAffect = command.ExecuteNonQuery();
+                    bok = nAffect > 0;
+                }
             }
             catch (Exception ex)
             {
@@ -182,9 +190,9 @@ namespace DupTerminator
                 new CrashReport(ex).ShowDialog();
             }
 
-            command.Dispose();
             //System.Diagnostics.Debug.WriteLine(String.Format("md5 updated for file {0}, lastwrite: {1}, length: {2}", path, lastWriteTime, length));
             _sqliteConnection.Close();
+            return bok;
         }
 
         public DataTable ReadAll()
@@ -193,26 +201,25 @@ namespace DupTerminator
             if (_sqliteConnection.State != ConnectionState.Open)
                 _sqliteConnection.Open();
 
-            SQLiteCommand command = _sqliteConnection.CreateCommand();
-            command.CommandText = SQLSelect;
-
             DataTable dt = new DataTable();
-            SQLiteDataAdapter da = new SQLiteDataAdapter(command);
             try
             {
-                da.Fill(dt);
+                using (var command = _sqliteConnection.CreateCommand())                {
+                    command.CommandText = SQLSelect;
+                    using (var da = new SQLiteDataAdapter(command))
+                    {
+                        da.Fill(dt);
+                    }   
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            
-
+            }
             //da.Dispose();
             _sqliteConnection.Close();
-
             return dt;
         }
-
 
 
         public string ReadHash(string fullName, DateTime lastWriteTime, long length)
@@ -230,40 +237,31 @@ namespace DupTerminator
             //string format_date = "yyyy-MM-dd HH:mm:ss.fff";
             //lastWriteTime.ToString(format_date);
 
-            SQLiteCommand command = _sqliteConnection.CreateCommand();
-            command.CommandText = SQLSelect;
-            command.Parameters.AddWithValue("Path", fullName);
-            //command.Parameters.AddWithValue("LastWriteTime", lastWriteTime.ToString(format_date));
-            command.Parameters.AddWithValue("LastWriteTime", lastWriteTime);
-            command.Parameters.AddWithValue("Length", length);
-
-            SQLiteDataReader reader;
-            try
+            using (var command = _sqliteConnection.CreateCommand())
             {
-                reader = command.ExecuteReader(); 
-                while (reader.Read())
+                command.CommandText = SQLSelect;
+                command.Parameters.AddWithValue("Path", fullName);
+                //command.Parameters.AddWithValue("LastWriteTime", lastWriteTime.ToString(format_date));
+                command.Parameters.AddWithValue("LastWriteTime", lastWriteTime);
+                command.Parameters.AddWithValue("Length", length);
+
+                try
                 {
-                    sHash = reader["hashVal"].ToString();
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if(reader.Read())
+                        {
+                            sHash = reader["hashVal"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    new CrashReport(ex).ShowDialog();
                 }
             }
-            catch (Exception ex)
-            {
-                _sqliteConnection.Close();
-                new CrashReport(ex).ShowDialog();
-            }
 
-            command.Dispose();
-
-            //int u = reader.FieldCount;
-            //reader.NextResult();
-            //md5 = reader["md5"].ToString();
-
-            //object[] resValues = new object[1];
-            //reader.Read();
-            //reader.GetValues(resValues);
-            //md5 = reader["md5"].ToString();
-            //md5 = reader.GetString(0);
- 
             _sqliteConnection.Close();
 
             return sHash;
